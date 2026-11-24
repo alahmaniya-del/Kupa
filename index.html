@@ -746,6 +746,12 @@ html.is-home,html.is-home body{overflow:visible!important;height:auto!important}
 
 .hv-scan{position:absolute;right:max(10px,env(safe-area-inset-right,0px));top:50%;transform:translateY(-50%);width:40px;height:40px;border:0;background:transparent;color:var(--st);display:grid;place-items:center}
 .hv-scan svg{width:26px;height:26px}
+
+/* home-screen app: keep the header clear of the status bar's blurred edge */
+@media (display-mode: standalone){
+  :root{padding-top:calc(env(safe-area-inset-top,0px) + 22px)!important}
+  body::before{height:calc(env(safe-area-inset-top,0px) + 22px)!important}
+}
 </style>
 
 <div class="app" dir="rtl" id="app">
