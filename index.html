@@ -771,6 +771,110 @@ html,body,*{touch-action:pan-x pan-y}
 @keyframes splin{to{opacity:1}}
 .spl .slast{font-family:var(--f-body,Assistant),sans-serif;font-size:14px;color:#a9b3a8;min-height:1.2em;opacity:0;animation:splin .8s .9s ease-out forwards}
 @media (prefers-reduced-motion:reduce){.spl .ring .fg,.spl .slogo,.spl .slast{animation-duration:.01s}}
+
+
+.sumbtn{position:relative;text-align:start;font:inherit;color:inherit;cursor:pointer;width:100%}
+.sumbtn:active{transform:scale(.98)}
+.sumgo{position:absolute;left:14px;top:50%;transform:translateY(-50%);font-size:1.4rem;opacity:.35}
+details.more{background:var(--surface);border:1px solid var(--line);border-radius:var(--r,14px);overflow:hidden}
+details.more>summary{list-style:none;cursor:pointer;padding:14px 16px;font-weight:700;display:flex;justify-content:space-between;align-items:center}
+details.more>summary::-webkit-details-marker{display:none}
+details.more>summary::after{content:"‹";font-size:1.3rem;opacity:.5;transition:transform .2s;transform:rotate(-90deg)}
+details.more[open]>summary::after{transform:rotate(90deg)}
+details.more>:not(summary){margin:0 12px 12px}
+.mc-top{display:flex}
+.mc-head{background:var(--hero,#1c322a);color:#f1eee7;border-radius:var(--r,14px);padding:16px 18px}
+.mc-head h2{margin:2px 0 0;font-family:var(--f-display);font-weight:400;font-size:1.5rem}
+.mc-head small{opacity:.75;font-weight:600}
+.mc-tot{font-size:2.2rem;font-weight:300;margin:2px 0}
+.mc-list{display:flex;flex-direction:column;gap:8px}
+.mc-g{background:var(--surface);border:1px solid var(--line);border-radius:var(--r,14px);overflow:hidden}
+.mc-g>summary{list-style:none;cursor:pointer;display:flex;align-items:center;gap:10px;padding:12px 14px;font-size:1.05rem}
+.mc-g>summary::-webkit-details-marker{display:none}
+.mc-g>summary .mc-n{color:var(--muted);font-size:.85rem;font-weight:600}
+.mc-g>summary .mc-a{margin-inline-start:auto;font-weight:700}
+.mc-row{display:flex;align-items:center;gap:10px;padding:9px 14px;border-top:1px solid var(--line);background:var(--surface)}
+.mc-list>.mc-row{border:1px solid var(--line);border-radius:12px}
+.mc-d{color:var(--muted);font-weight:600;min-width:48px;font-variant-numeric:tabular-nums}
+.mc-l{flex:1;min-width:0;overflow:hidden;text-overflow:ellipsis;white-space:nowrap}
+.mc-a{font-variant-numeric:tabular-nums;white-space:nowrap}
+
+.st-head{display:flex;flex-direction:column;align-items:flex-start;gap:6px}
+.st-grp{font-size:13px;font-weight:800;color:var(--muted);letter-spacing:.02em;margin:14px 6px -4px}
+.st-grp-row{display:flex;align-items:center;justify-content:space-between}
+.st-list{background:var(--surface);border:1px solid var(--line);border-radius:14px;overflow:hidden}
+.st-list.dim{opacity:.65}
+.st-item{all:unset;box-sizing:border-box;display:flex;align-items:center;gap:12px;width:100%;padding:13px 14px;border-bottom:1px solid var(--line);cursor:pointer;color:var(--ink);text-align:start;min-height:60px}
+.st-item:last-child{border-bottom:0}
+.st-item.static{cursor:default}
+.st-item:focus-visible{outline:2px solid var(--accent);outline-offset:-2px}
+.st-item:not(.static):active{background:var(--sunk)}
+.st-ic{flex:0 0 auto;width:38px;height:38px;border-radius:10px;background:rgba(28,50,42,.10);color:var(--accent);display:flex;align-items:center;justify-content:center}
+.st-av{flex:0 0 auto;width:38px;height:38px;border-radius:50%;background:rgba(28,50,42,.12);color:var(--accent);display:grid;place-items:center;font-weight:800;font-size:16px}
+.st-tx{flex:1;min-width:0;display:flex;flex-direction:column}
+.st-tx b{font-weight:800;font-size:16px}
+.st-tx small{color:var(--muted);font-weight:700;font-size:12.5px;margin-top:2px}
+.st-ch{color:var(--muted);font-size:22px;font-weight:700;line-height:1}
+.seg.thm.sm button{padding:6px 12px;font-size:.85rem;min-height:34px}
+/* monthly report: screen preview + print */
+#rpo{scroll-padding-top:70px;position:fixed;inset:0;z-index:60;background:#d9d5cc;overflow-y:auto;-webkit-overflow-scrolling:touch;padding:calc(12px + env(safe-area-inset-top,0px)) 10px calc(24px + env(safe-area-inset-bottom,0px))}
+:root.pwa #rpo{padding-top:calc(64px + env(safe-area-inset-top,0px))}
+.rp-on body{overflow:hidden}
+.rpo-bar{position:sticky;top:0;display:flex;gap:8px;justify-content:center;padding:8px 0 12px;z-index:2}
+.rpo-paper{background:#fff;color:#14231c;max-width:820px;margin:0 auto;border-radius:6px;box-shadow:0 4px 24px rgba(0,0,0,.15);padding:22px 18px}
+.rp{direction:rtl;font-family:Assistant,Arial,sans-serif;font-size:12.5px;line-height:1.4;color:#14231c}
+.rp-h{display:flex;justify-content:space-between;align-items:flex-end;gap:12px;border-bottom:3px solid #1c322a;padding-bottom:10px;margin-bottom:14px}
+.rp-brand{font-family:'Secular One',Assistant,sans-serif;color:#1c322a;font-size:13px}
+.rp h1{font-family:'Secular One',Assistant,sans-serif;font-weight:400;font-size:24px;margin:2px 0;color:#1c322a}
+.rp-sub,.rp-gen{color:#5d665f;font-size:12px}
+.rp h2{font-family:'Secular One',Assistant,sans-serif;font-weight:400;font-size:15px;color:#1c322a;margin:16px 0 6px}
+.rp-kpi{display:grid;grid-template-columns:repeat(4,minmax(0,1fr));gap:8px;margin-bottom:12px}
+.rp-kpi div{border:1px solid #d4cfc2;border-radius:6px;padding:8px 10px;background:#f6f4ef}
+.rp-kpi div.hl{background:#1c322a;color:#f1eee7;border-color:#1c322a}
+.rp-kpi small{display:block;font-size:11px;opacity:.8}.rp-kpi b{font-size:17px;direction:ltr;display:block;text-align:right;white-space:nowrap}
+.rp-two{display:grid;grid-template-columns:minmax(0,1fr) minmax(0,1fr);gap:12px;align-items:start}
+.rp table{width:100%;border-collapse:collapse}
+.rp th,.rp td{padding:4px 6px;border-bottom:1px solid #e4e0d6;text-align:left;white-space:nowrap;font-variant-numeric:tabular-nums}
+.rp th{background:#ece9e2;font-weight:700;font-size:11.5px;color:#1c322a}
+.rp td:not(.l){direction:ltr}
+.rp th.l,.rp td.l{text-align:right;white-space:normal}
+.rp tfoot td{font-weight:700;border-top:1.5px solid #1c322a;border-bottom:0}
+.rp .pos{color:#1d6b42}.rp .neg{color:#a3332a}.rp .dim{color:#b5b0a4}
+.rp-t tbody tr:nth-child(even) td{background:#faf9f6}
+.rp-sc{overflow-x:auto;-webkit-overflow-scrolling:touch}
+.rp-f{margin-top:14px;padding-top:8px;border-top:1px solid #d4cfc2;color:#5d665f;font-size:11px;text-align:center}
+@media(max-width:600px){.rpo-paper{padding:14px 10px}.rp{font-size:11px}.rp-kpi{grid-template-columns:repeat(2,minmax(0,1fr))}.rp-two{grid-template-columns:minmax(0,1fr)}.rp th,.rp td{padding:3px 4px}}
+
+.rp-bal{display:grid;grid-template-columns:repeat(2,minmax(0,1fr));gap:8px;margin-bottom:10px}
+.rp-bal div{border:1px solid #d4cfc2;border-radius:8px;padding:10px 12px;background:#f6f4ef}
+.rp-bal .hl{background:#1c322a;color:#f1eee7;border-color:#1c322a}
+.rp-bal small,.rp-box small{display:block;font-size:12px;opacity:.8;font-weight:600}
+.rp-bal b{display:block;font-size:22px;font-weight:300;direction:ltr;text-align:right}
+.rp-grid{display:grid;grid-template-columns:repeat(2,minmax(0,1fr));gap:8px;margin-bottom:6px}
+.rp-box{display:block;text-decoration:none;color:#14231c;background:#ece9e2;border-radius:8px;padding:12px;border:1px solid #d4cfc2}
+.rp-box b{display:block;font-size:24px;font-weight:300;direction:ltr;text-align:right;color:#1c322a;margin:2px 0}
+.rp-box span{font-size:11px;color:#5d665f}
+.rp-box:active{background:#dcd7cb}
+.rp-sec{margin-top:16px;break-inside:auto}
+.rp-sh{display:flex;justify-content:space-between;align-items:baseline;border-bottom:2px solid #1c322a;padding-bottom:3px;margin-bottom:2px}
+.rp-sh h2{margin:0}.rp-sh b{font-size:16px;direction:ltr}
+.rp-sec td.d{width:52px;color:#5d665f}.rp-sec td.br{width:80px;color:#5d665f}
+.rp-sec tbody tr:nth-child(even) td{background:#faf9f6}
+@media(min-width:601px){.rp-grid{grid-template-columns:repeat(4,minmax(0,1fr))}}
+@media print{.rp-grid{grid-template-columns:repeat(4,1fr)}.rp-box{break-inside:avoid}.rp-sh{break-after:avoid}}
+@page{size:A4;margin:12mm 10mm}
+@media print{
+  html,body{background:#fff!important;padding:0!important}
+  body>*:not(#rpo){display:none!important}
+  #rpo{position:static;overflow:visible;padding:0;background:#fff}
+  .rpo-bar{display:none}
+  .rp-sc{overflow:visible}
+  .rpo-paper{box-shadow:none;border-radius:0;max-width:none;padding:0}
+  .rp{font-size:10.5px}.rp-kpi{grid-template-columns:repeat(4,1fr)}.rp-two{grid-template-columns:1fr 1fr}
+  .rp tr{break-inside:avoid}.rp thead{display:table-header-group}
+  *{-webkit-print-color-adjust:exact;print-color-adjust:exact}
+}
+.demo-pill{position:fixed;left:50%;transform:translateX(-50%);bottom:calc(96px + env(safe-area-inset-bottom,0px));z-index:59;background:#c9a227;color:#1c322a;font:700 12px Assistant,sans-serif;padding:5px 12px;border-radius:999px;box-shadow:0 2px 8px rgba(0,0,0,.25);pointer-events:none;white-space:nowrap}
 </style>
 
 <div class="app" dir="rtl" id="app">
@@ -850,6 +954,10 @@ function lastDeposit(b,upTo){let last=null;for(const d of sortedDays(b)){if(d.da
 /* ---------- storage: Firebase Realtime Database (REST + live stream) ---------- */
 const FB_BASE='https://halechmania-orders-default-rtdb.europe-west1.firebasedatabase.app/shops/halechmania-kupa';
 const PHOTO_BASE=FB_BASE+'-photos';
+/* test view: anywhere but the live site (GitHub Pages) the app runs on sample data kept in memory only */
+const DEMO=!/github\.io$/i.test(location.hostname)&&location.protocol!=='file:';
+const DEMO_DATA={"days": {"rishon_2026-11-15": {"branch": "rishon", "date": "2026-11-15", "count": null, "entries": [{"id": "dp15", "type": "deposit", "amount": 5600, "at": "2026-11-15T06:50:00Z"}, {"id": "w15", "type": "w", "ref": "002", "amount": 450, "at": "2026-11-15T07:10:00Z"}, {"id": "z1575", "type": "z", "ref": "1575", "amount": 5017, "at": "2026-11-15T19:50:00Z", "src": "mail"}]}, "jerusalem_2026-11-15": {"branch": "jerusalem", "date": "2026-11-15", "count": null, "entries": [{"id": "jz106", "type": "z", "ref": "106", "amount": 1713, "at": "2026-11-15T21:00:00Z", "src": "mail"}]}, "rishon_2026-11-16": {"branch": "rishon", "date": "2026-11-16", "count": null, "entries": [{"id": "z1576", "type": "z", "ref": "1576", "amount": 3597, "at": "2026-11-16T19:50:00Z", "src": "mail"}]}, "jerusalem_2026-11-16": {"branch": "jerusalem", "date": "2026-11-16", "count": null, "entries": [{"id": "jz107", "type": "z", "ref": "107", "amount": 528, "at": "2026-11-16T21:00:00Z", "src": "mail"}]}, "rishon_2026-11-17": {"branch": "rishon", "date": "2026-11-17", "count": null, "entries": [{"id": "ad17", "type": "advance", "empId": "mw8cgrmvv09fk", "amount": 300, "at": "2026-11-17T12:10:00Z"}, {"id": "ow17", "type": "owner", "ref": "ערן אגיסון", "amount": 1500, "at": "2026-11-17T15:30:00Z"}, {"id": "z1577", "type": "z", "ref": "1577", "amount": 3637, "at": "2026-11-17T19:50:00Z", "src": "mail"}]}, "jerusalem_2026-11-17": {"branch": "jerusalem", "date": "2026-11-17", "count": null, "entries": [{"id": "jz108", "type": "z", "ref": "108", "amount": 2243, "at": "2026-11-17T21:00:00Z", "src": "mail"}]}, "rishon_2026-11-18": {"branch": "rishon", "date": "2026-11-18", "count": null, "entries": [{"id": "dp18", "type": "deposit", "amount": 7300, "at": "2026-11-18T06:50:00Z"}, {"id": "z1578", "type": "z", "ref": "1578", "amount": 4279, "at": "2026-11-18T19:50:00Z", "src": "mail"}]}, "jerusalem_2026-11-18": {"branch": "jerusalem", "date": "2026-11-18", "count": null, "entries": [{"id": "jz109", "type": "z", "ref": "109", "amount": 456, "at": "2026-11-18T21:00:00Z", "src": "mail"}]}, "rishon_2026-11-19": {"branch": "rishon", "date": "2026-11-19", "count": null, "entries": [{"id": "z1579", "type": "z", "ref": "1579", "amount": 3752, "at": "2026-11-19T19:50:00Z", "src": "mail"}]}, "jerusalem_2026-11-19": {"branch": "jerusalem", "date": "2026-11-19", "count": null, "entries": [{"id": "jz110", "type": "z", "ref": "110", "amount": 1268, "at": "2026-11-19T21:00:00Z", "src": "mail"}]}, "rishon_2026-11-20": {"branch": "rishon", "date": "2026-11-20", "count": null, "entries": [{"id": "sal1", "type": "salary", "empId": "e_michael", "amount": 2450, "at": "2026-11-20T14:00:00Z"}, {"id": "z1580", "type": "z", "ref": "1580", "amount": 5112, "at": "2026-11-20T19:50:00Z", "src": "mail"}]}, "jerusalem_2026-11-20": {"branch": "jerusalem", "date": "2026-11-20", "count": null, "entries": [{"id": "jz111", "type": "z", "ref": "111", "amount": 523, "at": "2026-11-20T21:00:00Z", "src": "mail"}]}, "rishon_2026-11-22": {"branch": "rishon", "date": "2026-11-22", "count": null, "entries": [{"id": "ow22", "type": "owner", "ref": "אבי פרנקו", "amount": 500, "at": "2026-11-22T15:30:00Z"}, {"id": "ch1", "type": "change", "amount": 1200, "at": "2026-11-22T21:40:00Z"}, {"id": "z1581", "type": "z", "ref": "1581", "amount": 5657, "at": "2026-11-22T19:50:00Z", "src": "mail"}]}, "jerusalem_2026-11-22": {"branch": "jerusalem", "date": "2026-11-22", "count": null, "entries": [{"id": "jz112", "type": "z", "ref": "112", "amount": 1249, "at": "2026-11-22T21:00:00Z", "src": "mail"}]}, "rishon_2026-11-23": {"branch": "rishon", "date": "2026-11-23", "count": null, "entries": [{"id": "z1582", "type": "z", "ref": "1582", "amount": 3642, "at": "2026-11-23T19:50:00Z", "src": "mail"}]}, "jerusalem_2026-11-23": {"branch": "jerusalem", "date": "2026-11-23", "count": null, "entries": [{"id": "jz113", "type": "z", "ref": "113", "amount": 2073, "at": "2026-11-23T21:00:00Z", "src": "mail"}]}, "rishon_2026-11-24": {"branch": "rishon", "date": "2026-11-24", "count": null, "entries": [{"id": "dp24", "type": "deposit", "amount": 7300, "at": "2026-11-24T06:50:00Z"}, {"id": "cb1", "type": "changeback", "amount": 700, "at": "2026-11-24T06:10:00Z"}, {"id": "z1583", "type": "z", "ref": "1583", "amount": 3907, "at": "2026-11-24T19:50:00Z", "src": "mail"}]}, "jerusalem_2026-11-24": {"branch": "jerusalem", "date": "2026-11-24", "count": null, "entries": [{"id": "jz114", "type": "z", "ref": "114", "amount": 2320, "at": "2026-11-24T21:00:00Z", "src": "mail"}, {"id": "js1", "type": "salary", "empId": "j_nabiu", "amount": 1000, "at": "2026-11-24T15:40:00Z"}]}, "rishon_2026-11-25": {"branch": "rishon", "date": "2026-11-25", "count": null, "entries": [{"id": "ad25", "type": "advance", "empId": "e_liam", "amount": 1000, "at": "2026-11-25T12:10:00Z"}, {"id": "z1584", "type": "z", "ref": "1584", "amount": 5969, "at": "2026-11-25T19:50:00Z", "src": "mail"}]}, "jerusalem_2026-11-25": {"branch": "jerusalem", "date": "2026-11-25", "count": null, "entries": [{"id": "jz115", "type": "z", "ref": "115", "amount": 1573, "at": "2026-11-25T21:00:00Z", "src": "mail"}]}}, "config": {"employees": {"list": [{"active": true, "branch": "rishon", "id": "e_liam", "name": "ליאם"}, {"active": true, "branch": "rishon", "id": "e_avi_v", "name": "אבי וולט"}, {"active": true, "branch": "rishon", "id": "mw8cgrmvv09fk", "name": "דניאל"}, {"active": true, "branch": "rishon", "id": "e_michael", "name": "מייקל"}, {"active": true, "branch": "jerusalem", "id": "j_dagi", "name": "דגי"}, {"active": true, "branch": "jerusalem", "id": "j_yosef_h", "name": "יוסף חדאד"}, {"active": true, "branch": "jerusalem", "id": "j_nabiu", "name": "נביאו"}]}, "settings": {"alert": 5000, "pin": "1209", "limit": 6000, "opening": {}}}};
+
 const FB={tree:{},es:null,poll:null};
 function fbUrl(p){return FB_BASE+(p?'/'+p:'')+'.json'}
 function fbSetAt(p,v){const parts=p.split('/').filter(Boolean);if(!parts.length){FB.tree=v&&typeof v==='object'?v:{};return}
@@ -864,7 +972,7 @@ function fbApply(){const t=FB.tree||{},days=t.days||{},cfg=t.config||{};
 }
 const chains={};
 function persist(path,body){
-  const clean=JSON.parse(JSON.stringify(body));fbSetAt(path,clean);
+  const clean=JSON.parse(JSON.stringify(body));fbSetAt(path,clean);if(DEMO)return;
   chains[path]=(chains[path]||Promise.resolve()).then(async()=>{const r=await fetch(fbUrl(path),{method:'PUT',body:JSON.stringify(clean)});if(!r.ok)throw {status:r.status}}).catch(err=>{
     if(err&&(err.status===401||err.status===403))toast('אין הרשאת כתיבה למסד הנתונים');
     else toast('השמירה נכשלה. בדוק את החיבור לאינטרנט');
@@ -873,8 +981,8 @@ function persist(path,body){
 function saveDay(day){S.days.set(key(day.branch,day.date),day);persist('days/'+key(day.branch,day.date),{branch:day.branch,date:day.date,entries:day.entries,count:day.count||null})}
 function saveEmployees(){persist('config/employees',{list:S.employees})}
 function saveSettings(){persist('config/settings',S.settings)}
-async function fbLoad(){const r=await fetch(fbUrl(''),{cache:'no-store'});if(!r.ok)throw {status:r.status};FB.tree=(await r.json())||{};fbApply()}
-function fbStream(){
+async function fbLoad(){if(DEMO){if(!FB.demo){FB.tree=JSON.parse(JSON.stringify(DEMO_DATA));FB.demo=1}fbApply();return}const r=await fetch(fbUrl(''),{cache:'no-store'});if(!r.ok)throw {status:r.status};FB.tree=(await r.json())||{};fbApply()}
+function fbStream(){if(DEMO)return;
   if(!window.EventSource){FB.poll=setInterval(()=>fbLoad().then(render).catch(()=>{}),30000);return}
   try{FB.es&&FB.es.close()}catch(e){}
   const es=new EventSource(fbUrl(''));FB.es=es;
@@ -899,12 +1007,12 @@ async function importData(file){
   if(!d||!d.days||!d.config){toast('זה לא קובץ ייצוא של קופת המזומנים');return}
   const n=Object.keys(d.days).length;
   if(S.days.size&&!confirm(`במערכת כבר יש נתונים. להחליף אותם ב־${n} ימים מהקובץ?`))return;
-  try{const r=await fetch(fbUrl(''),{method:'PUT',body:JSON.stringify({days:d.days,config:d.config})});if(!r.ok)throw 0;
+  try{if(DEMO){FB.tree={days:d.days,config:d.config};FB.demo=1}else{const r=await fetch(fbUrl(''),{method:'PUT',body:JSON.stringify({days:d.days,config:d.config})});if(!r.ok)throw 0}
     await fbLoad();S.shownCash=undefined;render();toast(`יובאו ${n} ימים`)}catch(e){toast('הייבוא נכשל. נסה שוב')}
 }
 /* photos: stored in the database as small JPEG data URLs */
 const PHOTOS={};
-async function photoUpload(blob){const url=await new Promise(r=>{const fr=new FileReader();fr.onload=()=>r(fr.result);fr.readAsDataURL(blob)});
+async function photoUpload(blob){const url=await new Promise(r=>{const fr=new FileReader();fr.onload=()=>r(fr.result);fr.readAsDataURL(blob)});if(DEMO){const id='p'+uid();PHOTOS[id]=url;return id}
   const id='p'+uid();const r=await fetch(PHOTO_BASE+'/'+id+'.json',{method:'PUT',body:JSON.stringify(url)});if(!r.ok)throw {code:'upload'};PHOTOS[id]=url;return id}
 function photoFill(){document.querySelectorAll('img[data-photo]').forEach(async img=>{const id=img.dataset.photo;if(img.dataset.done)return;img.dataset.done='1';
   if(!/^p[a-z0-9]+$/.test(id)){img.replaceWith(Object.assign(document.createElement('div'),{className:'zerr',textContent:'הצילום הזה נשמר בגרסת Claude ולא הועבר'}));return}
@@ -1102,18 +1210,22 @@ function viewMonth(){
   let h=`<div class="datebar"><button class="iconbtn" data-act="month" data-v="-1" aria-label="חודש קודם">›</button><div class="d">${hMonth(S.month)}</div><button class="iconbtn" data-act="month" data-v="1" aria-label="חודש הבא">‹</button></div>`;
   if(Object.keys(BRANCHES).length>1)h+=`<div class="seg" style="align-self:center">${[...Object.entries(BRANCHES),['both','כל הסניפים']].map(([k,v])=>`<button data-act="mbranch" data-v="${k}" aria-pressed="${b===k}">${v}</button>`).join('')}</div>`;
   const gaps=(tot.adjust||0)+rows.reduce((s,r)=>s+(r.counted!==null?r.diff:0),0);
-  const cells=[['הכנסות Z',tot.z],['הופקד לבנק',tot.deposit],['מפרעות לעובדים',tot.advance],['משיכות בעלים',tot.owner],['משכורות',tot.salary||0],['עודף',(tot.change||0)-(tot.changeback||0)]];
-  h+=`<div class="sumgrid">${cells.map(([l,v])=>`<div class="sum"><small>${l}</small><span class="v">${ils(v)}</span></div>`).join('')}</div>`;
+  if(S.mcat)return mcatView(b);
+  const cells=[['z','הכנסות Z',tot.z],['deposit','הופקד לבנק',tot.deposit],['advance','מפרעות לעובדים',tot.advance],['owner','משיכות בעלים',tot.owner],['salary','משכורות',tot.salary||0],['change','עודף',(tot.change||0)-(tot.changeback||0)]];
+  h+=`<div class="sumgrid">${cells.map(([k,l,v])=>`<button class="sum sumbtn" data-act="mcat" data-v="${k}"><small>${l}</small><span class="v">${ils(v)}</span><span class="sumgo" aria-hidden="true">‹</span></button>`).join('')}</div>`;
+  h+=`<details class="more"><summary>ספירות ו־Z שלא הופקד</summary>`;
   h+=`<div class="banner ${Math.abs(gaps)<0.01?'info':gaps<0?'neg':'warn'}"><span>פערי ספירה בחודש: ${ils(gaps,true)}</span><span class="muted" style="font-weight:600">${rows.filter(r=>r.counted!==null).length} ימים נספרו מתוך ${rows.length}</span></div>`;
   const zNotDep=tot.z-tot.deposit;
   h+=`<div class="sum"><small>Z שלא הופקד החודש (Z פחות הפקדות)</small><span class="v">${ils(zNotDep)}</span></div>`;
-  h+=`<section><div class="sec-h"><h2>פירוט יומי</h2><span>החלק לצדדים</span></div><div class="table-wrap"><table><thead><tr><th>תאריך</th><th>Z</th><th>הפקדה</th><th>מפרעות</th><th>בעלים</th><th>הוצאות</th><th>יתרה צפויה</th><th>נספר</th><th>פער</th></tr></thead><tbody>`;
+  h+=`</details>`;
+  h+=`<details class="more"><summary>פירוט יומי</summary><section><div class="sec-h"><span>החלק לצדדים</span></div><div class="table-wrap"><table><thead><tr><th>תאריך</th><th>Z</th><th>הפקדה</th><th>מפרעות</th><th>בעלים</th><th>הוצאות</th><th>יתרה צפויה</th><th>נספר</th><th>פער</th></tr></thead><tbody>`;
   h+=rows.length?rows.map(r=>`<tr><td><button class="chipbtn" data-act="goday" data-v="${r.date}">${hDate(r.date,{weekday:'short',day:'numeric'})}</button></td><td>${ils(r.z)}</td><td>${ils(r.deposit)}</td><td>${ils(r.advance)}</td><td>${ils(r.owner)}</td><td>${ils(r.expense)}</td><td>${ils(r.close)}</td><td>${r.counted===null?'<span class="muted">—</span>':ils(r.counted)}</td><td>${r.counted===null?'':Math.abs(r.diff)<0.01?'<span class="pill ok">✓</span>':`<span class="pill ${r.diff<0?'bad':'warn'}">${ils(r.diff,true)}</span>`}</td></tr>`).join(''):`<tr><td colspan="9" class="empty">אין תנועות בחודש הזה</td></tr>`;
-  h+=`</tbody>${rows.length?`<tfoot><tr><td>סה״כ</td><td>${ils(tot.z)}</td><td>${ils(tot.deposit)}</td><td>${ils(tot.advance)}</td><td>${ils(tot.owner)}</td><td>${ils(tot.expense)}</td><td></td><td></td><td></td></tr></tfoot>`:''}</table></div></section>`;
+  h+=`</tbody>${rows.length?`<tfoot><tr><td>סה״כ</td><td>${ils(tot.z)}</td><td>${ils(tot.deposit)}</td><td>${ils(tot.advance)}</td><td>${ils(tot.owner)}</td><td>${ils(tot.expense)}</td><td></td><td></td><td></td></tr></tfoot>`:''}</table></div></section></details>`;
   const ids=Object.keys(emp);
-  h+=`<section><div class="sec-h"><h2>מפרעות לקיזוז במשכורת</h2><span>לשליחה לרו״ח</span></div><div class="table-wrap"><table><thead><tr><th>עובד</th><th>קיבל החודש</th><th>הוחזר / קוזז</th><th>יתרת חוב היום</th></tr></thead><tbody>`;
+  h+=`<details class="more"><summary>מפרעות לקיזוז במשכורת</summary><section><div class="sec-h"><span>לשליחה לרו״ח</span></div><div class="table-wrap"><table><thead><tr><th>עובד</th><th>קיבל החודש</th><th>הוחזר / קוזז</th><th>יתרת חוב היום</th></tr></thead><tbody>`;
   h+=ids.length?ids.map(id=>`<tr><td>${esc(empName(id))}</td><td>${ils(emp[id].adv)}</td><td>${ils(emp[id].back)}</td><td><b>${ils(empDebt(id))}</b></td></tr>`).join(''):`<tr><td colspan="4" class="empty">אין מפרעות בחודש הזה</td></tr>`;
-  h+=`</tbody></table></div></section>`;
+  h+=`</tbody></table></div></section></details>`;
+  h+=`<button class="btn wide" data-act="pdf">דוח PDF של החודש</button>`;
   h+=`<button class="btn wide" data-act="csv">ייצוא החודש לאקסל (CSV)</button>`;
   return h;
 }
@@ -1131,41 +1243,68 @@ function chartHTML(){const mode=S.chartMode||'day',b=S.branch,ser=zSeries(b,mode
   <div class="seg zseg" role="group" aria-label="תקופה">${Object.entries(nm).map(([m,l])=>`<button data-act="chart" data-v="${m}" aria-pressed="${mode===m}">${l}</button>`).join('')}</div>
   <div class="zbars m-${mode}">${ser.map((x,i)=>`<div class="zb${x.cur?' cur':''}"><span class="zv">${x.v?k(x.v):''}</span><span class="zcol"><i style="height:${Math.round(x.v/mx*100)}%;animation-delay:${i*45}ms"></i></span><span class="zl">${x.l}</span></div>`).join('')}</div>
   <div class="line muted"><span>סה״כ ${nm[mode]==='ימים'?'14 ימים':nm[mode]==='שבועות'?'8 שבועות':'6 חודשים'}: <b>${ils(tot)}</b></span><span>ממוצע: <b>${ils(cnt?tot/cnt:0)}</b></span></div></section>`}
+const APP_BUILD='25.11.2026 · 15:00';
+const SIC={
+ rep:'<path d="M3 3v18h18"/><path d="M7 15l4-4 3 3 5-6"/>',
+ chart:'<path d="M4 20V10M10 20V4M16 20v-7M22 20H2"/>',
+ cash:'<rect x="2" y="6" width="20" height="12" rx="2"/><circle cx="12" cy="12" r="2.5"/><path d="M6 10v4M18 10v4"/>',
+ emp:'<circle cx="9" cy="8" r="3.5"/><path d="M2.5 20a6.5 6.5 0 0 1 13 0"/><path d="M16 4.5a3.5 3.5 0 0 1 0 7M21.5 20a6.5 6.5 0 0 0-4-6"/>',
+ mail:'<rect x="3" y="5" width="18" height="14" rx="2"/><path d="m3 7 9 6 9-6"/>',
+ theme:'<circle cx="12" cy="12" r="9"/><path d="M12 3a9 9 0 0 0 0 18z" fill="currentColor"/>',
+ snd:'<path d="M11 5 6 9H3v6h3l5 4z"/><path d="M15.5 8.5a5 5 0 0 1 0 7M18.5 5.5a9 9 0 0 1 0 13"/>',
+ data:'<path d="M12 3v12M7 10l5 5 5-5"/><path d="M4 17v2a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2v-2"/>',
+ br:'<path d="M3 21h18"/><path d="M5 21V8l7-5 7 5v13"/><path d="M9 21v-6h6v6"/>',
+ ver:'<circle cx="12" cy="12" r="9"/><path d="M12 8h.01M11 12h1v5h1"/>'};
+const sic=k=>`<span class="st-ic"><svg viewBox="0 0 24 24" width="22" height="22" fill="none" stroke="currentColor" stroke-width="1.9" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true">${SIC[k]}</svg></span>`;
+const sitem=(k,t,sub,act,v)=>`<button type="button" class="st-item" data-act="${act}" ${v?`data-v="${v}"`:''}>${sic(k)}<span class="st-tx"><b>${t}</b><small>${sub}</small></span><span class="st-ch" aria-hidden="true">‹</span></button>`;
 function viewSettings(){
-  const SB=S.branch||'rishon', MZ=mailCfg(SB), ro=S.readOnly;
-  let h=`<h1 class="set-title">הגדרות</h1>`;
-
-  // general – same for both branches
-  h+=`<div class="set-grp"><div class="set-h">כללי</div><div class="set-card">
-    <div class="set-row col"><span class="set-l">תצוגה</span><div class="seg thm" role="group" aria-label="תצוגה"><button data-act="theme" data-v="dark" aria-pressed="${!isLight()}">כהה · רקע ירוק</button><button data-act="theme" data-v="light" aria-pressed="${isLight()}">בהיר · רקע אפור</button></div></div>
-    <label class="set-row"><span class="set-l">צליל כסף בזמן גלגול הסכום</span><input type="checkbox" class="sw" id="sndIn" ${soundOn()?'checked':''}></label>
-  </div></div>`;
-
-  h+=`<div class="set-grp"><div class="set-h">קופה</div><div class="set-card">
+  const SB=S.branch||'rishon', MZ=mailCfg(SB), ro=S.readOnly, P=S.setPanel||'main';
+  const title={main:'הגדרות',cash:'קופה',emps:'עובדים',mail:'משיכת Z מהמייל',stats:'סטטיסטיקה',data:'העברת נתונים'}[P]||'הגדרות';
+  let h=`<div class="st-head">${P==='main'?'':`<button class="chipbtn" data-act="setp" data-v="main">› חזרה</button>`}<h1 class="set-title">${title}</h1></div>`;
+  if(P==='main'){
+    const emps=S.employees.filter(e=>!e.deleted&&e.active!==false&&(e.branch===SB||e.branch==='both')).length;
+    h+=`<div class="st-grp">נתונים</div><div class="st-list">
+      ${sitem('rep','דוחות','סיכום חודשי לפי קטגוריות · PDF ואקסל','tab','month')}
+      ${sitem('chart','סטטיסטיקה','גרף מזומן לפי ימים, שבועות וחודשים','setp','stats')}</div>`;
+    h+=`<div class="st-grp">קופה · ${esc(BRANCHES[SB])}</div><div class="st-list">
+      ${sitem('cash','התרעה ומסגרת',`התרעה מעל ${rm(S.settings.alert??5000)} · מינוס עד ${rm(-CASH_FLOOR)}`,'setp','cash')}
+      ${sitem('emp','עובדים',`${emps} פעילים · הוספה ועריכה`,'setp','emps')}
+      ${sitem('mail','משיכת Z מהמייל',`${MZ.on?'פעיל':'כבוי'} · כל יום ב־${esc(MZ.time)}`,'setp','mail')}</div>`;
+    h+=`<div class="st-grp">תצוגה</div><div class="st-list">
+      <div class="st-item static">${sic('theme')}<span class="st-tx"><b>מצב תצוגה</b><small>כהה או בהיר</small></span><div class="seg thm sm" role="group" aria-label="תצוגה"><button data-act="theme" data-v="dark" aria-pressed="${!isLight()}">כהה</button><button data-act="theme" data-v="light" aria-pressed="${isLight()}">בהיר</button></div></div>
+      <label class="st-item static">${sic('snd')}<span class="st-tx"><b>צליל כסף</b><small>בזמן גלגול הסכום</small></span><input type="checkbox" class="sw" id="sndIn" ${soundOn()?'checked':''}></label></div>`;
+    h+=`<div class="st-grp">מידע</div><div class="st-list">
+      <div class="st-item static">${sic('br')}<span class="st-tx"><b>סניף</b><small>${esc(BRANCHES[SB])} · מחליפים בחץ שבמסך הבית</small></span></div>
+      ${sitem('data','העברת נתונים','ייבוא קובץ מגרסת Claude','setp','data')}
+      <div class="st-item static">${sic('ver')}<span class="st-tx"><b>גרסה</b><small>עדכון אחרון של האפליקציה: ${APP_BUILD}</small></span></div></div>`;
+    return h;
+  }
+  if(P==='cash'){
+    h+=`<div class="set-card">
     <label class="set-row"><span class="set-l">התרעה כשיש בקופה מעל<small>הודעה כשצריך להפקיד</small></span><span class="set-v">₪<input id="alertIn" class="set-in" inputmode="decimal" value="${S.settings.alert??5000}"></span></label>
     <label class="set-row"><span class="set-l">מסגרת מינוס ביתרת המזומן<small>עד כמה היתרה יכולה לרדת מתחת לאפס</small></span><span class="set-v">₪<input id="limIn" class="set-in" inputmode="numeric" value="${-CASH_FLOOR}"></span></label>
-  </div>${ro?'':`<button class="btn set-save" data-act="saveSettings">שמור</button>`}</div>`;
-
-  h+=`<div class="set-grp"><div class="set-h">סטטיסטיקה</div>${chartHTML()}</div>`;
-  // per branch
-  h+=`<div class="set-split"><span>הגדרות סניף ${BRANCHES[SB]}</span><small>הסניף השני נפתח מהחלפת חשבון בקוד</small></div>`;
-  const live=MZ.on&&MZ.mail;
-  h+=`<div class="set-grp"><div class="set-h">משיכת Z מהמייל · ${BRANCHES[SB]}<span class="pill ${MZ.on?'ok':'none'}">${MZ.on?'פעיל':'כבוי'}</span></div><div class="set-card">
-    <label class="set-row"><span class="set-l">משיכה אוטומטית<small>כל יום ב־${MZ.time}, ה־Z נרשם לבד ביתרת המזומן</small></span><input type="checkbox" class="sw" id="mzOn" ${MZ.on?'checked':''}></label>
-  </div><p class="set-note">המשיכה נעשית בסקריפט בחשבון ה־Gmail. כשהכול תקין לא נשלח מייל, ומייל נשלח רק כשיש בעיה.</p>
-  ${ro?'':`<button class="btn set-save" data-act="saveMail">שמור</button>`}<div id="mzMsg" class="set-msg" role="status"></div></div>`;
-  h+=`<div class="set-grp"><div class="set-h">העברת נתונים</div><div class="set-card"><label class="set-row"><span class="set-l">ייבוא מגרסת Claude<small>קובץ kupa-export שהורד מהאפליקציה ב־Claude</small></span><span class="btn ghost" style="flex:none">בחר קובץ</span><input type="file" id="impFile" accept=".json,application/json" hidden></label></div></div>`;
-
-  const emps=S.employees.filter(e=>!e.deleted&&(e.branch===SB||e.branch==='both'));
-  const act=emps.filter(e=>e.active!==false).sort((a,b)=>a.name.localeCompare(b.name,'he')), off=emps.filter(e=>e.active===false).sort((a,b)=>a.name.localeCompare(b.name,'he'));
-  const row=e=>`<button class="emp" data-act="editEmp" data-id="${e.id}"><span class="t"><b>${esc(e.name)}</b>${e.branch==='both'?'<small>שני הסניפים</small>':''}</span><span class="muted">עריכה ›</span></button>`;
-  h+=`<div class="set-grp"><div class="set-h">עובדים · ${BRANCHES[SB]}<span class="muted" style="font-weight:600">${act.length} פעילים</span>${ro?'':'<button class="chipbtn" data-act="addEmp" style="margin-inline-start:auto">+ עובד חדש</button>'}</div><div class="list">`;
-  h+=act.length?act.map(row).join(''):`<div class="empty">אין עובדים פעילים בסניף ${BRANCHES[SB]}</div>`;
-  h+='</div>';
-  if(off.length)h+=`<div class="set-h sub">לא פעילים</div><div class="list dim">${off.map(row).join('')}</div>`;
-  h+='</div>';
-
-  h+=`<p class="set-note" style="margin-top:4px">איך זה עובד: כל תנועה משנה את היתרה הצפויה. בסוף יום סופרים את הקופה ומשווים. מפרעה מורידה מזומן ומוסיפה לחוב העובד; "קיזוז משכורת" סוגר חוב בלי לגעת בקופה.</p>`;
+    </div>${ro?'':`<button class="btn set-save" data-act="saveSettings">שמור</button>`}`;
+    return h;
+  }
+  if(P==='stats')return h+chartHTML();
+  if(P==='mail'){
+    h+=`<div class="set-card"><label class="set-row"><span class="set-l">משיכה אוטומטית · ${esc(BRANCHES[SB])}<small>כל יום ב־${esc(MZ.time)}, ה־Z נרשם לבד ביתרת המזומן</small></span><input type="checkbox" class="sw" id="mzOn" ${MZ.on?'checked':''}></label></div>
+    <p class="set-note">המשיכה נעשית בסקריפט בחשבון ה־Gmail. כשהכול תקין לא נשלח מייל, ומייל נשלח רק כשיש בעיה. בשבת אין משיכה.</p>
+    ${ro?'':`<button class="btn set-save" data-act="saveMail">שמור</button>`}<div id="mzMsg" class="set-msg" role="status"></div>`;
+    return h;
+  }
+  if(P==='data'){
+    h+=`<div class="set-card"><label class="set-row"><span class="set-l">ייבוא מגרסת Claude<small>קובץ kupa-export שהורד מהאפליקציה ב־Claude. מחליף את הנתונים הקיימים.</small></span><span class="btn ghost" style="flex:none">בחר קובץ</span><input type="file" id="impFile" accept=".json,application/json" hidden></label></div>`;
+    return h;
+  }
+  if(P==='emps'){
+    const emps=S.employees.filter(e=>!e.deleted&&(e.branch===SB||e.branch==='both'));
+    const act=emps.filter(e=>e.active!==false).sort((a,b)=>a.name.localeCompare(b.name,'he')), off=emps.filter(e=>e.active===false).sort((a,b)=>a.name.localeCompare(b.name,'he'));
+    const row=e=>`<button class="st-item" data-act="editEmp" data-id="${e.id}"><span class="st-av">${esc((e.name||'?').trim().charAt(0))}</span><span class="st-tx"><b>${esc(e.name)}</b><small>${e.branch==='both'?'שני הסניפים':esc(BRANCHES[e.branch]||'')}${empDebt(e.id)>0?' · חוב '+rm(empDebt(e.id)):''}</small></span><span class="st-ch" aria-hidden="true">‹</span></button>`;
+    h+=`<div class="st-grp st-grp-row"><span>פעילים · ${act.length}</span>${ro?'':'<button class="chipbtn" data-act="addEmp">+ עובד חדש</button>'}</div><div class="st-list">${act.length?act.map(row).join(''):`<div class="empty">אין עובדים פעילים בסניף ${esc(BRANCHES[SB])}</div>`}</div>`;
+    if(off.length)h+=`<div class="st-grp">לא פעילים</div><div class="st-list dim">${off.map(row).join('')}</div>`;
+    return h;
+  }
   return h;
 }
 
@@ -1252,6 +1391,70 @@ function empDetail(id){
 function openingSheet(){S.tab='settings';closeSheet();render();setTimeout(()=>document.getElementById('oa_'+S.branch)?.focus(),50)}
 
 /* ---------- csv ---------- */
+
+/* ---------- monthly PDF report: a print-ready page; iPhone saves it as PDF from the print sheet ---------- */
+function rm(n){const v=Math.round((n||0)*100)/100;return (v<0?'−':'')+'₪'+nf.format(Math.abs(v))}
+
+function mcatView(b){
+  const m=S.month,brs=b==='both'?Object.keys(BRANCHES):[b],[y,mm]=m.split('-').map(Number),n=new Date(y,mm,0).getDate();
+  const k=S.mcat,types=k==='change'?['change','changeback']:[k];
+  const L=[];for(const br of brs)for(let i=1;i<=n;i++){const date=m+'-'+pad(i);for(const e of getDay(br,date).entries)if(types.includes(e.type))L.push({br,date,e})}
+  L.sort((p,q)=>p.date<q.date?-1:p.date>q.date?1:String(p.e.at||'')<String(q.e.at||'')?-1:1);
+  const T={z:'הכנסות Z',deposit:'הופקד לבנק',advance:'מפרעות לעובדים',owner:'משיכות בעלים',salary:'משכורות',change:'עודף'}[k]||'';
+  const amt=x=>k==='change'?(x.e.type==='change'?+x.e.amount:-x.e.amount):+x.e.amount;
+  const total=L.reduce((s,x)=>s+amt(x),0);
+  const dl=x=>`<bdi dir="ltr">${x.date.slice(8,10)}/${x.date.slice(5,7)}</bdi>`+(b==='both'?` · ${esc(BRANCHES[x.br])}`:'');
+  const row=(x,label)=>`<div class="mc-row"><span class="mc-d">${dl(x)}</span><span class="mc-l">${label}</span><span class="mc-a">${ils(amt(x))}</span></div>`;
+  let body='';
+  const grouped=(keyOf,nameOf,lab)=>{const G={};for(const x of L)(G[keyOf(x)]=G[keyOf(x)]||[]).push(x);
+    return Object.keys(G).map(g=>({g,sum:G[g].reduce((s,x)=>s+amt(x),0),rows:G[g]})).sort((p,q)=>q.sum-p.sum)
+      .map(o=>`<details class="mc-g" open><summary><b>${esc(nameOf(o.g))}</b><span class="mc-n">${o.rows.length===1?'פעם אחת':o.rows.length+' פעמים'}</span><span class="mc-a">${ils(o.sum)}</span></summary>${o.rows.map(x=>row(x,lab(x))).join('')}</details>`).join('')};
+  if(k==='advance'||k==='salary')body=grouped(x=>x.e.empId||'',empName,x=>'');
+  else if(k==='owner')body=grouped(x=>x.e.ref||'לא צוין',g=>g,x=>esc(x.e.note||''));
+  else if(k==='z')body=L.map(x=>row(x,'Z'+(x.e.ref?' מס׳ '+esc(x.e.ref):''))).join('');
+  else if(k==='deposit')body=L.map(x=>row(x,esc(x.e.note||'הפקדה לבנק'))).join('');
+  else body=L.map(x=>row(x,x.e.type==='change'?'העברה לקופת עודף':'החזרה מקופת עודף')).join('');
+  return `<div class="mc-top"><button class="chipbtn" data-act="mcatback">› חזרה לדוחות</button></div>
+  <div class="mc-head"><small>${esc(hMonth(m))} · ${b==='both'?'כל הסניפים':esc(BRANCHES[b])}</small><h2>${T}</h2><div class="mc-tot">${ils(total)}</div><small>${L.length===1?'פעולה אחת':L.length+' פעולות'}${k==='change'?' · העברות פחות החזרות':''}</small></div>
+  <div class="mc-list">${body||'<div class="empty">אין פעולות בחודש הזה</div>'}</div>`;
+}
+function pdfHTML(){
+  const b=S.monthBranch,m=S.month,brs=b==='both'?Object.keys(BRANCHES):[b];
+  const [y,mm]=m.split('-').map(Number),n=new Date(y,mm,0).getDate(),first=m+'-01',last=m+'-'+pad(n);
+  const prevLast=addMonths(m,-1)+'-'+pad(new Date(y,mm-1,0).getDate()),todayS=today(),endD=last<todayS?last:(first<=todayS?todayS:last);
+  const open=brs.reduce((s,br)=>s+closing(br,prevLast),0),close=brs.reduce((s,br)=>s+closing(br,endD),0);
+  const dd=s=>s.slice(8,10)+'/'+s.slice(5,7);
+  const CATS=[
+    {k:'z',t:'סיכום יומי · Z',sign:1,d:e=>'Z'+(e.ref?' מס׳ '+e.ref:'')},
+    {k:'w',t:'W',sign:1,d:e=>'W'+(e.ref?' מס׳ '+e.ref:'')},
+    {k:'deposit',t:'הפקדות לבנק',sign:-1,d:e=>'הפקדה לבנק'+(e.note?' · '+e.note:'')},
+    {k:'salary',t:'משכורות',sign:-1,d:e=>empName(e.empId)},
+    {k:'advance',t:'מפרעות עובדים',sign:-1,d:e=>empName(e.empId)},
+    {k:'owner',t:'מפרעות בעלים',sign:-1,d:e=>(e.ref||'לא צוין')+(e.note?' · '+e.note:'')},
+    {k:'change',t:'עודף · העברה לקופה',sign:-1,d:e=>'העברה לקופת עודף'},
+    {k:'changeback',t:'עודף · החזרה לקופה',sign:1,d:e=>'החזרה מקופת עודף'},
+    {k:'repay',t:'החזר מפרעות',sign:1,d:e=>empName(e.empId)},
+    {k:'expense',t:'הוצאות',sign:-1,d:e=>(e.note||TYPES.expense?.label||'הוצאה')}];
+  const items={};
+  for(const br of brs)for(let i=1;i<=n;i++){const date=m+'-'+pad(i);for(const e of getDay(br,date).entries)(items[e.type]=items[e.type]||[]).push({br,date,e})}
+  const used=CATS.filter(c=>(items[c.k]||[]).length);
+  const tot=c=>(items[c.k]||[]).reduce((s,x)=>s+(+x.e.amount||0),0);
+  const box=c=>`<a class="rp-box" href="#rp-${c.k}"><small>${c.t}</small><b>${rm(tot(c))}</b><span>${items[c.k].length===1?'פעולה אחת':items[c.k].length+' פעולות'}</span></a>`;
+  const sec=c=>{const L=items[c.k].slice().sort((p,q)=>p.date<q.date?-1:p.date>q.date?1:String(p.e.at||'')<String(q.e.at||'')?-1:1);
+    return `<section class="rp-sec" id="rp-${c.k}"><div class="rp-sh"><h2>${c.t}</h2><b>${rm(tot(c))}</b></div><table><tbody>${L.map(({br,date,e})=>`<tr><td class="d">${dd(date)}</td>${b==='both'?`<td class="l br">${esc(BRANCHES[br])}</td>`:''}<td class="l">${esc(c.d(e))}</td><td>${rm(+e.amount||0)}</td></tr>`).join('')}</tbody></table></section>`};
+  const now=new Date();
+  return `<div class="rp">
+  <header class="rp-h"><div><div class="rp-brand">הלחמניא · קופת מזומנים</div><h1>${esc(hMonth(m))}</h1><div class="rp-sub">${b==='both'?'שני הסניפים':'סניף '+esc(BRANCHES[b])} · <bdi dir="ltr">${dd(first)}–${dd(endD)}</bdi></div></div><div class="rp-gen">הופק ${pad(now.getDate())}/${pad(now.getMonth()+1)}/${now.getFullYear()}</div></header>
+  <div class="rp-bal"><div><small>יתרת פתיחה</small><b>${rm(open)}</b></div><div class="hl"><small>יתרת מזומן</small><b>${rm(close)}</b></div></div>
+  <div class="rp-grid">${used.map(box).join('')||'<p>אין תנועות בחודש הזה</p>'}</div>
+  ${used.map(sec).join('')}
+  </div>`;
+}
+function pdfOpen(){let o=document.getElementById('rpo');if(!o){o=document.createElement('div');o.id='rpo';document.body.appendChild(o)}
+  o.innerHTML=`<div class="rpo-bar"><button class="btn" data-act="pdfprint">שמירה ל־<bdi>PDF</bdi></button><button class="btn ghost" data-act="pdfclose">סגור</button></div><div class="rpo-paper">${pdfHTML()}</div>`;
+  o.hidden=false;document.documentElement.classList.add('rp-on')}
+document.addEventListener('click',e=>{const a=e.target.closest&&e.target.closest('.rp-box');if(!a)return;e.preventDefault();const t=document.querySelector(a.getAttribute('href'));if(t)t.scrollIntoView({behavior:'smooth',block:'start'})});
+function pdfClose(){const o=document.getElementById('rpo');if(o)o.hidden=true;document.documentElement.classList.remove('rp-on')}
 async function exportCsv(){
   const b=S.monthBranch,{rows,tot,emp}=monthData(b,S.month);const q=v=>'"'+String(v).replace(/"/g,'""')+'"';
   const L=[];L.push(['קופת מזומנים הלחמניא',b==='both'?'שני הסניפים':BRANCHES[b],hMonth(S.month)].map(q).join(','));L.push('');
@@ -1274,11 +1477,12 @@ document.addEventListener('click',ev=>{
   if(a==='closeBg'){if(ev.target===el)closeSheet();return}
   switch(a){
     case 'branch':S.branch=v;S.monthBranch=v;render();break;
-    case 'tab':S.tab=v;render();window.scrollTo(0,0);break;
+    case 'tab':S.tab=v;if(v==='settings')S.setPanel='main';render();window.scrollTo(0,0);break;
+    case 'setp':S.setPanel=v;render();window.scrollTo(0,0);break;
     case 'date':S.date=addDays(S.date,+v);render();break;
     case 'today':S.date=today();render();break;
-    case 'month':S.month=addMonths(S.month,+v);render();break;
-    case 'mbranch':S.monthBranch=v;render();break;
+    case 'month':S.month=addMonths(S.month,+v);S.mcat=null;render();break;
+    case 'mbranch':S.monthBranch=v;S.mcat=null;render();break;
     case 'goday':S.date=v;if(S.monthBranch!=='both')S.branch=S.monthBranch;S.tab='day';render();window.scrollTo(0,0);break;
     case 'new':if(v==='deposit'&&S.tab==='home'&&!S.readOnly){Z={kind:'dep',stage:'bank',back:null,amount:'',branch:S.branch,date:today()};zDraw()}else if(v==='advance'&&S.tab==='home'&&!S.readOnly){Z={kind:'emp',stage:'emp',amount:'',empId:'',other:'',branch:S.branch,date:today(),autoF:true};zDraw()}else if(v==='owner'&&S.tab==='home'&&!S.readOnly){Z={kind:'owner',stage:'owner',amount:'',who:'',branch:S.branch,date:today(),autoF:true};zDraw()}else if(v==='z'&&S.tab==='home'&&!S.readOnly){const zf=document.getElementById('zFile');zf.value='';zf.click()}else entrySheet({type:v});break;
     case 'empnew':entrySheet({type:v,empId:el.dataset.id});break;
@@ -1388,6 +1592,11 @@ document.addEventListener('click',ev=>{
       const al=parseAmt(document.getElementById('alertIn').value);const lm=parseAmt(document.getElementById('limIn').value);S.settings={...S.settings,opening:op,alert:isFinite(al)?al:5000,limit:isFinite(lm)&&lm>=0?Math.round(lm):6000};saveSettings();toast('ההגדרות נשמרו');render();break}
     case 'saveMail':mailSave(S.branch||'rishon');break;
     case 'csv':exportCsv();break;
+    case 'pdf':pdfOpen();break;
+    case 'mcat':S.mcat=v;render();window.scrollTo(0,0);break;
+    case 'mcatback':S.mcat=null;render();break;
+    case 'pdfprint':window.print();break;
+    case 'pdfclose':pdfClose();break;
   }
 });
 async function shrink(file){
@@ -1617,4 +1826,5 @@ startApp({});
 </script>
 
 <script>{const stop=e=>e.preventDefault();['gesturestart','gesturechange','gestureend'].forEach(t=>document.addEventListener(t,stop,{passive:false}));document.addEventListener('touchmove',e=>{if(e.touches&&e.touches.length>1)e.preventDefault()},{passive:false})}</script>
+<script>{if(DEMO){const b=document.createElement('div');b.className='demo-pill';b.textContent='תצוגת בדיקה · נתונים לדוגמה, לא נשמרים';document.body.appendChild(b)}}</script>
 </body></html>
