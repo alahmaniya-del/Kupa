@@ -820,7 +820,12 @@ details.more>:not(summary){margin:0 12px 12px}
 #rpo{scroll-padding-top:70px;position:fixed;inset:0;z-index:60;background:#d9d5cc;overflow-y:auto;-webkit-overflow-scrolling:touch;padding:calc(12px + env(safe-area-inset-top,0px)) 10px calc(24px + env(safe-area-inset-bottom,0px))}
 :root.pwa #rpo{padding-top:calc(64px + env(safe-area-inset-top,0px))}
 .rp-on body{overflow:hidden}
-.rpo-bar{position:sticky;top:0;display:flex;gap:8px;justify-content:center;padding:8px 0 12px;z-index:2}
+.rpo-bar{position:fixed;left:0;right:0;bottom:0;display:flex;gap:10px;justify-content:center;padding:12px 16px calc(12px + env(safe-area-inset-bottom,0px));z-index:3;background:rgba(217,213,204,.94);-webkit-backdrop-filter:blur(10px);backdrop-filter:blur(10px);border-top:1px solid rgba(0,0,0,.08)}
+.rpo-bar .btn{flex:1;max-width:240px;display:inline-flex;align-items:center;justify-content:center;gap:8px;white-space:nowrap}
+.rpo-bar .btn[disabled]{opacity:.7}
+#rpo{padding-bottom:calc(96px + env(safe-area-inset-bottom,0px))!important}
+.rp-cap{position:fixed;left:-10000px;top:0;width:760px;background:#fff;padding:0}
+.rp-cap .rp{font-size:12px}.rp-cap .rp-kpi{grid-template-columns:repeat(4,minmax(0,1fr))}.rp-cap .rp-two{grid-template-columns:1fr 1fr}
 .rpo-paper{background:#fff;color:#14231c;max-width:820px;margin:0 auto;border-radius:6px;box-shadow:0 4px 24px rgba(0,0,0,.15);padding:22px 18px}
 .rp{direction:rtl;font-family:Assistant,Arial,sans-serif;font-size:12.5px;line-height:1.4;color:#14231c}
 .rp-h{display:flex;justify-content:space-between;align-items:flex-end;gap:12px;border-bottom:3px solid #1c322a;padding-bottom:10px;margin-bottom:14px}
@@ -1243,7 +1248,7 @@ function chartHTML(){const mode=S.chartMode||'day',b=S.branch,ser=zSeries(b,mode
   <div class="seg zseg" role="group" aria-label="תקופה">${Object.entries(nm).map(([m,l])=>`<button data-act="chart" data-v="${m}" aria-pressed="${mode===m}">${l}</button>`).join('')}</div>
   <div class="zbars m-${mode}">${ser.map((x,i)=>`<div class="zb${x.cur?' cur':''}"><span class="zv">${x.v?k(x.v):''}</span><span class="zcol"><i style="height:${Math.round(x.v/mx*100)}%;animation-delay:${i*45}ms"></i></span><span class="zl">${x.l}</span></div>`).join('')}</div>
   <div class="line muted"><span>סה״כ ${nm[mode]==='ימים'?'14 ימים':nm[mode]==='שבועות'?'8 שבועות':'6 חודשים'}: <b>${ils(tot)}</b></span><span>ממוצע: <b>${ils(cnt?tot/cnt:0)}</b></span></div></section>`}
-const APP_BUILD='25.11.2026 · 15:00';
+const APP_BUILD='25.11.2026 · 16:15';
 const SIC={
  rep:'<path d="M3 3v18h18"/><path d="M7 15l4-4 3 3 5-6"/>',
  chart:'<path d="M4 20V10M10 20V4M16 20v-7M22 20H2"/>',
@@ -1451,9 +1456,53 @@ function pdfHTML(){
   </div>`;
 }
 function pdfOpen(){let o=document.getElementById('rpo');if(!o){o=document.createElement('div');o.id='rpo';document.body.appendChild(o)}
-  o.innerHTML=`<div class="rpo-bar"><button class="btn" data-act="pdfprint">שמירה ל־<bdi>PDF</bdi></button><button class="btn ghost" data-act="pdfclose">סגור</button></div><div class="rpo-paper">${pdfHTML()}</div>`;
+  o.innerHTML=`<div class="rpo-paper">${pdfHTML()}</div><div class="rpo-bar"><button class="btn" data-act="pdfprint" id="pdfBtn"><svg viewBox="0 0 24 24" width="20" height="20" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M12 3v12M7 10l5 5 5-5"/><path d="M4 17v2a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2v-2"/></svg><span>ייצוא PDF</span></button><button class="btn ghost" data-act="pdfclose">סגור</button></div>`;
   o.hidden=false;document.documentElement.classList.add('rp-on')}
 document.addEventListener('click',e=>{const a=e.target.closest&&e.target.closest('.rp-box');if(!a)return;e.preventDefault();const t=document.querySelector(a.getAttribute('href'));if(t)t.scrollIntoView({behavior:'smooth',block:'start'})});
+
+function loadJS(srcs){return srcs.reduce((p,u)=>p.catch(()=>new Promise((ok,no)=>{const t=document.createElement('script');t.src=u;t.onload=ok;t.onerror=()=>{t.remove();no()};document.head.appendChild(t)})),Promise.reject())}
+function pdfBytes(pages){ // pages: [{jpg:Uint8Array,w,h}] px; A4 portrait, 22pt margin
+  const PW=595.28,PH=841.89,M=22,enc=new TextEncoder(),parts=[],offs=[];let len=0;
+  const put=x=>{const b=typeof x==='string'?enc.encode(x):x;parts.push(b);len+=b.length};
+  const n=pages.length,obj=(i,body)=>{offs[i]=len;put(i+' 0 obj\n');body();put('\nendobj\n')};
+  put('%PDF-1.4\n%\xE2\xE3\xCF\xD3\n');
+  obj(1,()=>put('<< /Type /Catalog /Pages 2 0 R >>'));
+  obj(2,()=>put('<< /Type /Pages /Count '+n+' /Kids ['+pages.map((_,i)=>(3+i*3)+' 0 R').join(' ')+'] >>'));
+  pages.forEach((p,i)=>{const pg=3+i*3,im=pg+1,ct=pg+2,w=PW-2*M,h=w*p.h/p.w;
+    obj(pg,()=>put(`<< /Type /Page /Parent 2 0 R /MediaBox [0 0 ${PW} ${PH}] /Resources << /XObject << /I${i} ${im} 0 R >> >> /Contents ${ct} 0 R >>`));
+    obj(im,()=>{put(`<< /Type /XObject /Subtype /Image /Width ${p.w} /Height ${p.h} /ColorSpace /DeviceRGB /BitsPerComponent 8 /Filter /DCTDecode /Length ${p.jpg.length} >>\nstream\n`);put(p.jpg);put('\nendstream')});
+    const c=`q ${w.toFixed(2)} 0 0 ${h.toFixed(2)} ${M} ${(PH-M-h).toFixed(2)} cm /I${i} Do Q`;
+    obj(ct,()=>put(`<< /Length ${c.length} >>\nstream\n${c}\nendstream`));});
+  const total=3+n*3,xref=len;let x='xref\n0 '+total+'\n0000000000 65535 f \n';
+  for(let i=1;i<total;i++)x+=String(offs[i]).padStart(10,'0')+' 00000 n \n';
+  put(x+`trailer\n<< /Size ${total} /Root 1 0 R >>\nstartxref\n${xref}\n%%EOF`);
+  return new Blob(parts,{type:'application/pdf'});
+}
+async function pdfSave(btn){
+  const paper=document.querySelector('#rpo .rpo-paper');if(!paper||btn.disabled)return;
+  const lbl=btn.querySelector('span'),orig=lbl.textContent;btn.disabled=true;lbl.textContent='מכין קובץ…';
+  const wrap=document.createElement('div');wrap.className='rp-cap';
+  try{
+    if(!window.html2canvas)await loadJS(['https://cdnjs.cloudflare.com/ajax/libs/html2canvas/1.4.1/html2canvas.min.js','https://cdn.jsdelivr.net/npm/html2canvas@1.4.1/dist/html2canvas.min.js']);
+    wrap.innerHTML=paper.innerHTML;document.body.appendChild(wrap);
+    if(document.fonts&&document.fonts.ready)await document.fonts.ready;
+    const W=760,H=Math.floor(W*(841.89-44)/(595.28-44)),SC=2,top0=wrap.getBoundingClientRect().top;
+    const cuts=[...wrap.querySelectorAll('tr,h2,h3,.rp-kpi,.rp-kpi>*,.rp-sec,.rp-two>*,.rp>*')].map(el=>Math.round(el.getBoundingClientRect().bottom-top0)).sort((a,b)=>a-b);
+    const tot=Math.ceil(wrap.scrollHeight);
+    const cv=await html2canvas(wrap,{scale:SC,backgroundColor:'#ffffff',logging:false,useCORS:true,width:W,windowWidth:W});
+    const pages=[];let y=0;
+    while(y<tot-2){let e=Math.min(y+H,tot);if(e<tot){const ok=cuts.filter(c=>c>y+H*.5&&c<=y+H);if(ok.length)e=ok[ok.length-1]}
+      const pc=document.createElement('canvas');pc.width=W*SC;pc.height=(e-y)*SC;const g=pc.getContext('2d');g.fillStyle='#fff';g.fillRect(0,0,pc.width,pc.height);
+      g.drawImage(cv,0,y*SC,W*SC,(e-y)*SC,0,0,W*SC,(e-y)*SC);
+      const bin=atob(pc.toDataURL('image/jpeg',.9).split(',')[1]),u=new Uint8Array(bin.length);for(let i=0;i<bin.length;i++)u[i]=bin.charCodeAt(i);
+      pages.push({jpg:u,w:pc.width,h:pc.height});y=e}
+    const blob=pdfBytes(pages),[yy,mm]=S.month.split('-'),bn=S.monthBranch==='both'?'שני-הסניפים':(BRANCHES[S.monthBranch]||'').replace(/\s+/g,'-');
+    const name=`קופה-${bn}-${mm}-${yy}.pdf`,file=new File([blob],name,{type:'application/pdf'});
+    if(navigator.canShare&&navigator.canShare({files:[file]})){try{await navigator.share({files:[file],title:name})}catch(er){if(er&&er.name!=='AbortError')throw er}}
+    else{const u=URL.createObjectURL(blob),a=document.createElement('a');a.href=u;a.download=name;document.body.appendChild(a);a.click();a.remove();setTimeout(()=>URL.revokeObjectURL(u),4000)}
+  }catch(er){console.warn('pdf',er);try{window.print()}catch(_){};toast('לא הצלחתי ליצור PDF · נסה שוב כשיש אינטרנט')}
+  finally{wrap.remove();btn.disabled=false;lbl.textContent=orig}
+}
 function pdfClose(){const o=document.getElementById('rpo');if(o)o.hidden=true;document.documentElement.classList.remove('rp-on')}
 async function exportCsv(){
   const b=S.monthBranch,{rows,tot,emp}=monthData(b,S.month);const q=v=>'"'+String(v).replace(/"/g,'""')+'"';
@@ -1595,7 +1644,7 @@ document.addEventListener('click',ev=>{
     case 'pdf':pdfOpen();break;
     case 'mcat':S.mcat=v;render();window.scrollTo(0,0);break;
     case 'mcatback':S.mcat=null;render();break;
-    case 'pdfprint':window.print();break;
+    case 'pdfprint':pdfSave(el);break;
     case 'pdfclose':pdfClose();break;
   }
 });
