@@ -1,4 +1,4 @@
-<!doctype html><html lang="he"><head><meta charset="utf-8"><meta name=viewport content="width=device-width,initial-scale=1,maximum-scale=1,user-scalable=no,viewport-fit=cover"><style>:root{color-scheme:light;box-sizing:border-box;padding-top:env(safe-area-inset-top,0px);padding-bottom:env(safe-area-inset-bottom,0px)}html{scroll-padding-top:env(safe-area-inset-top,0px)}body{margin:0;padding:0;font:14px -apple-system,BlinkMacSystemFont,sans-serif;background:#fff;color:#000}img{max-width:100%}[hidden]:not([hidden=until-found i]){display:none!important}</style>
+<!doctype html><html lang="he"><head><meta charset="utf-8"><script>try{if(navigator.standalone||matchMedia("(display-mode: standalone)").matches)document.documentElement.classList.add("pwa")}catch(e){}</script><meta name=viewport content="width=device-width,initial-scale=1,maximum-scale=1,user-scalable=no,viewport-fit=cover"><style>:root{color-scheme:light;box-sizing:border-box;padding-top:env(safe-area-inset-top,0px);padding-bottom:env(safe-area-inset-bottom,0px)}html{scroll-padding-top:env(safe-area-inset-top,0px)}body{margin:0;padding:0;font:14px -apple-system,BlinkMacSystemFont,sans-serif;background:#fff;color:#000}img{max-width:100%}[hidden]:not([hidden=until-found i]){display:none!important}</style>
 <title>קופת מזומנים הלחמניא</title>
 <meta name="apple-mobile-web-app-capable" content="yes"><meta name="mobile-web-app-capable" content="yes"><meta name="apple-mobile-web-app-title" content="קופת מזומנים"><meta name="apple-mobile-web-app-status-bar-style" content="black-translucent"><meta name="theme-color" content="#1c322a"><link rel="apple-touch-icon" sizes="512x512" href="icon.png?v=2"><link rel="icon" href="icon.png">
 <link rel="preconnect" href="https://fonts.googleapis.com">
@@ -754,10 +754,8 @@ html.is-home,html.is-home body{overflow:visible!important;height:auto!important}
 .hv-scan svg{width:26px;height:26px}
 
 /* home-screen app: keep the header clear of the status bar's blurred edge */
-@media (display-mode: standalone){
-  :root{padding-top:calc(env(safe-area-inset-top,0px) + 48px)!important}
-  body::before{height:calc(env(safe-area-inset-top,0px) + 48px)!important}
-}
+:root.pwa{padding-top:calc(env(safe-area-inset-top,0px) + 64px)!important}
+:root.pwa body::before{height:calc(env(safe-area-inset-top,0px) + 64px)!important}
 
 html,body,*{touch-action:pan-x pan-y}
 .spl{position:fixed;inset:0;z-index:100;background:radial-gradient(120% 70% at 50% 45%,#24402f 0%,#1c322a 55%,#14241c 100%);display:flex;flex-direction:column;align-items:center;justify-content:center;gap:28px;transition:opacity .5s,visibility .5s}
