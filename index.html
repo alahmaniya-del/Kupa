@@ -985,6 +985,24 @@ function persist(path,body){
 }
 function saveDay(day){S.days.set(key(day.branch,day.date),day);persist('days/'+key(day.branch,day.date),{branch:day.branch,date:day.date,entries:day.entries,count:day.count||null})}
 function saveEmployees(){persist('config/employees',{list:S.employees})}
+/* השלמה חד־פעמית: נתוני ירושלים 15–25/11 מגרסת Claude (לא מכפיל: בודק מזהה, מספר Z, וסוג+סכום) */
+const JER_FIX={"2026-11-15": [{"amount": 5000, "at": "2026-11-15T20:41:34.428Z", "empId": "j_dagi", "id": "mwiavc9o3bmar", "type": "salary"}, {"amount": 1137, "at": "2026-11-15T21:00:00.000Z", "id": "mail_jz106", "ref": "106", "type": "z", "src": "mail"}], "2026-11-16": [{"amount": 398, "at": "2026-11-17T03:07:00.000Z", "id": "mail_jz107", "ref": "107", "src": "mail", "type": "z"}], "2026-11-17": [{"amount": 1049, "at": "2026-11-18T03:07:42Z", "id": "mail_jz108", "ref": "108", "src": "mail", "type": "z"}], "2026-11-18": [{"amount": 463, "at": "2026-11-19T03:07:45Z", "id": "mail_jz109", "ref": "109", "src": "mail", "type": "z"}], "2026-11-19": [{"amount": 2216, "at": "2026-11-20T03:07:47Z", "id": "mail_jz110", "ref": "110", "src": "mail", "type": "z"}], "2026-11-20": [{"amount": 5903, "at": "2026-11-21T03:07:22Z", "id": "mail_jz111", "ref": "111", "src": "mail", "type": "z"}], "2026-11-22": [{"amount": 10259, "at": "2026-11-22T05:50:15.487Z", "id": "mwrf42bj78m8w", "type": "deposit"}, {"amount": 457, "at": "2026-11-22T21:00:00.000Z", "id": "mail_jz112", "ref": "112", "type": "z", "src": "mail"}], "2026-11-23": [{"amount": 575, "at": "2026-11-24T03:07:47Z", "id": "mail_jz113", "ref": "113", "src": "mail", "type": "z"}], "2026-11-24": [{"amount": 800, "at": "2026-11-24T06:11:41.201Z", "empId": "j_yosef_h", "id": "mwuarbptpg3oe", "type": "salary"}, {"amount": 2093, "at": "2026-11-24T06:12:43.592Z", "id": "mwuasnuwjciui", "ref": "אבי פרנקו", "type": "owner"}, {"amount": 1000, "at": "2026-11-24T15:43:51.175Z", "empId": "j_nabiu", "id": "mwuv74w7uvqku", "type": "salary"}, {"amount": 412, "at": "2026-11-25T03:07:45Z", "id": "mail_jz114", "ref": "114", "src": "mail", "type": "z"}], "2026-11-25": [{"amount": 1179, "at": "2026-11-26T03:07:48Z", "id": "mail_jz115", "ref": "115", "src": "mail", "type": "z"}]};
+function mergeJer(){
+  if(DEMO||!S.settings||S.settings.mig_jer2611)return;
+  const zr=new Set();for(const d of S.days.values())if(d.branch==='jerusalem')for(const e of d.entries)if(e.type==='z'&&e.ref)zr.add(String(e.ref));
+  let n=0;
+  for(const [date,list] of Object.entries(JER_FIX)){
+    const day=getDay('jerusalem',date),ent=[...day.entries];let ch=false;
+    for(const e of list){
+      if(ent.some(x=>x.id===e.id))continue;
+      if(e.type==='z'&&zr.has(String(e.ref)))continue;
+      if(e.type!=='z'&&ent.some(x=>x.type===e.type&&+x.amount===+e.amount))continue;
+      ent.push({...e});if(e.type==='z')zr.add(String(e.ref));ch=true;n++}
+    if(ch)saveDay({...day,branch:'jerusalem',date,entries:ent})}
+  const mz={...(S.settings.mailz||{})};mz.jerusalem={...(mz.jerusalem||{}),on:true};
+  S.settings={...S.settings,mailz:mz,mig_jer2611:true};saveSettings();
+  if(n)setTimeout(()=>toast('ירושלים עודכנה · נוספו '+n+' פעולות'),3400);
+}
 function saveSettings(){persist('config/settings',S.settings)}
 async function fbLoad(){if(DEMO){if(!FB.demo){FB.tree=JSON.parse(JSON.stringify(DEMO_DATA));FB.demo=1}fbApply();return}const r=await fetch(fbUrl(''),{cache:'no-store'});if(!r.ok)throw {status:r.status};FB.tree=(await r.json())||{};fbApply()}
 function fbStream(){if(DEMO)return;
@@ -1003,7 +1021,7 @@ document.addEventListener('visibilitychange',()=>{if(document.visibilityState===
 async function boot(){applyTheme();try{const sb=localStorage.getItem('kupaBranch');if(sb&&BRANCHES[sb]){S.branch=sb;S.monthBranch=sb}}catch(e){}
   render();S.db=true;
   const timer=setTimeout(()=>{S.slow=true;render()},10000);
-  try{await fbLoad();clearTimeout(timer);S.slow=false;S.loaded=true;render();fbStream()}
+  try{await fbLoad();clearTimeout(timer);S.slow=false;S.loaded=true;try{mergeJer()}catch(_){}render();fbStream()}
   catch(e){clearTimeout(timer);S.loaded=true;S.err=true;render();setTimeout(boot,15000)}
 }
 /* move data over from the Claude version: a kupa-export JSON file */
@@ -1248,7 +1266,7 @@ function chartHTML(){const mode=S.chartMode||'day',b=S.branch,ser=zSeries(b,mode
   <div class="seg zseg" role="group" aria-label="תקופה">${Object.entries(nm).map(([m,l])=>`<button data-act="chart" data-v="${m}" aria-pressed="${mode===m}">${l}</button>`).join('')}</div>
   <div class="zbars m-${mode}">${ser.map((x,i)=>`<div class="zb${x.cur?' cur':''}"><span class="zv">${x.v?k(x.v):''}</span><span class="zcol"><i style="height:${Math.round(x.v/mx*100)}%;animation-delay:${i*45}ms"></i></span><span class="zl">${x.l}</span></div>`).join('')}</div>
   <div class="line muted"><span>סה״כ ${nm[mode]==='ימים'?'14 ימים':nm[mode]==='שבועות'?'8 שבועות':'6 חודשים'}: <b>${ils(tot)}</b></span><span>ממוצע: <b>${ils(cnt?tot/cnt:0)}</b></span></div></section>`}
-const APP_BUILD='25.11.2026 · 16:15';
+const APP_BUILD='26.11.2026 · 17:50';
 const SIC={
  rep:'<path d="M3 3v18h18"/><path d="M7 15l4-4 3 3 5-6"/>',
  chart:'<path d="M4 20V10M10 20V4M16 20v-7M22 20H2"/>',
