@@ -4,11 +4,13 @@
 <link rel="preconnect" href="https://fonts.googleapis.com">
 <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Secular+One&family=Varela+Round&family=Assistant:wght@200;300;400;600;700;800&display=swap">
 </head><body>
-<div class="spl" id="spl" aria-hidden="true"><div class="ring"><svg viewBox="0 0 100 100"><circle class="bg" cx="50" cy="50" r="48"/><circle class="fg" cx="50" cy="50" r="48"/></svg><div class="slogo"></div></div><div class="slast" id="slast"></div></div>
-<script>{const el=document.getElementById('spl'),t=document.getElementById('slast'),p=n=>String(n).padStart(2,'0');let prev='';try{prev=localStorage.getItem('kupaLastLogin')||''}catch(e){}
-const now=new Date();try{localStorage.setItem('kupaLastLogin',now.toISOString())}catch(e){}
+<script>window.SPL_HTML="<div class=\"spl\" id=\"spl\" aria-hidden=\"true\"><div class=\"ring\"><svg viewBox=\"0 0 100 100\"><circle class=\"bg\" cx=\"50\" cy=\"50\" r=\"48\"/><circle class=\"fg\" cx=\"50\" cy=\"50\" r=\"48\"/></svg><div class=\"slogo\"></div></div><div class=\"slast\" id=\"slast\"></div></div>";
+function showSplash(){let el=document.getElementById('spl');if(el)el.remove();const w=document.createElement('div');w.innerHTML=SPL_HTML;el=w.firstElementChild;document.body.appendChild(el);
+const t=el.querySelector('.slast'),p=n=>String(n).padStart(2,'0');let prev='';try{prev=localStorage.getItem('kupaLastLogin')||''}catch(e){}
+try{localStorage.setItem('kupaLastLogin',new Date().toISOString())}catch(e){}
 if(prev){const d=new Date(prev);t.textContent='כניסה אחרונה: '+p(d.getDate())+'/'+p(d.getMonth()+1)+'/'+String(d.getFullYear()).slice(2)+' · '+p(d.getHours())+':'+p(d.getMinutes())}else t.textContent='כניסה ראשונה במכשיר זה';
-setTimeout(()=>{el.classList.add('gone');setTimeout(()=>el.remove(),600)},3200)}</script>
+clearTimeout(showSplash.t);showSplash.t=setTimeout(()=>{el.classList.add('gone');setTimeout(()=>el.remove(),600)},3200)}
+showSplash();</script>
 
 <style>
 /* Layout: one-column cash ledger, sticky branch bar on top, fixed tab bar at bottom, bottom sheets for every entry */
@@ -816,6 +818,22 @@ details.more>:not(summary){margin:0 12px 12px}
 .st-tx small{color:var(--muted);font-weight:700;font-size:12.5px;margin-top:2px}
 .st-ch{color:var(--muted);font-size:22px;font-weight:700;line-height:1}
 .seg.thm.sm button{padding:6px 12px;font-size:.85rem;min-height:34px}
+
+.st-col{flex-direction:column;align-items:stretch;gap:10px}
+.st-row{display:flex;align-items:center;gap:12px}
+.sw-row{display:flex;flex-wrap:wrap;gap:10px;padding-inline-start:50px}
+.swc{width:34px;height:34px;border-radius:50%;border:2px solid var(--line);padding:0;cursor:pointer;box-shadow:inset 0 0 0 2px rgba(255,255,255,.12)}
+.swc[aria-pressed="true"]{outline:3px solid var(--accent);outline-offset:2px}
+
+/* צבע רקע לפי סניף: כל גווני המסך הראשי נגזרים מ־--g */
+:root:not(.lt){--g1:var(--g);--g2:color-mix(in srgb,var(--g),#fff 2.5%);--g3:color-mix(in srgb,var(--g),#fff 4.5%);--g4:color-mix(in srgb,var(--g),#fff 6.5%);--g5:color-mix(in srgb,var(--g),#fff 8.5%);--g6:color-mix(in srgb,var(--g),#fff 10.5%);--gd:color-mix(in srgb,var(--g),#000 30%)}
+:root:not(.lt) .hv-band.c1{background:var(--g1)!important}:root:not(.lt) .hv-band.c2{background:var(--g2)!important}:root:not(.lt) .hv-band.c3{background:var(--g3)!important}:root:not(.lt) .hv-band.c4{background:var(--g4)!important}:root:not(.lt) .hv-band.c5{background:var(--g5)!important}:root:not(.lt) .hv-band.c6{background:var(--g6)!important}
+:root:not(.lt) .hb-top,:root:not(.lt) .hb-band.k1,:root:not(.lt) .qa-it:active .qa-ic,:root:not(.lt) .hq-it:active .hq-ic{background:var(--g6)!important}
+:root:not(.lt) .bankv .bv-top,:root:not(.lt) .bankv .b1,:root:not(.lt) .bankv .tlrow,:root:not(.lt) .zf .bk-date{background:var(--g5)!important}
+:root:not(.lt) .stmtv .vrow{background:var(--g3)!important}
+:root:not(.lt) .vpinv{--g:inherit;background:var(--g2)!important}
+:root:not(.lt) .hv:not(.sv) .c1 .hv-body::after{background:linear-gradient(to bottom,transparent,var(--g))!important}
+:root:not(.lt) .zf .shot{background:var(--gd)!important}
 /* monthly report: screen preview + print */
 #rpo{scroll-padding-top:70px;position:fixed;inset:0;z-index:60;background:#d9d5cc;overflow-y:auto;-webkit-overflow-scrolling:touch;padding:calc(12px + env(safe-area-inset-top,0px)) 10px calc(24px + env(safe-area-inset-bottom,0px))}
 :root.pwa #rpo{padding-top:calc(64px + env(safe-area-inset-top,0px))}
@@ -1017,7 +1035,17 @@ function fbStream(){if(DEMO)return;
   es.addEventListener('cancel',()=>{es.close();FB.poll=FB.poll||setInterval(()=>fbLoad().then(render).catch(()=>{}),30000)});
   es.onerror=()=>{if(es.readyState===2){FB.poll=FB.poll||setInterval(()=>fbLoad().then(render).catch(()=>{}),30000)}};
 }
-document.addEventListener('visibilitychange',()=>{if(document.visibilityState==='visible'&&S.loaded)fbLoad().then(render).catch(()=>{})});
+let hiddenAt=0;
+document.addEventListener('visibilitychange',()=>{
+  if(document.visibilityState==='hidden'){hiddenAt=Date.now();return}
+  if(hiddenAt&&Date.now()-hiddenAt>60000){
+    try{if(Z)zClose()}catch(e){}try{closeSheet()}catch(e){}try{pdfClose()}catch(e){}
+    S.tab='home';S.setPanel='main';S.mcat=null;S.shownCash=undefined;window.scrollTo(0,0);
+    showSplash();render();
+    if(S.loaded){fbLoad().then(render).catch(()=>{});fbStream()}
+  }else if(S.loaded)fbLoad().then(render).catch(()=>{});
+  hiddenAt=0;
+});
 async function boot(){applyTheme();try{const sb=localStorage.getItem('kupaBranch');if(sb&&BRANCHES[sb]){S.branch=sb;S.monthBranch=sb}}catch(e){}
   render();S.db=true;
   const timer=setTimeout(()=>{S.slow=true;render()},10000);
@@ -1055,7 +1083,7 @@ addEventListener('resize',()=>tlRail());
 function render(){
   document.getElementById('branchSeg').innerHTML=Object.entries(BRANCHES).map(([k,v])=>`<button data-act="branch" data-v="${k}" aria-pressed="${S.branch===k}">${v}</button>`).join('');
   document.getElementById('branchSeg').hidden=true;
-  document.documentElement.classList.toggle('is-home',S.tab==='home');
+  applyTheme();document.documentElement.classList.toggle('is-home',S.tab==='home');
   document.documentElement.classList.toggle('lock',!!(S.qa&&S.tab==='home'));
   document.getElementById('tabs').innerHTML=TABS.map(([k,v])=>`<button data-act="tab" data-v="${k}" ${S.tab===k?'aria-current="page"':''}>${v}</button>`).join('');
   const v=document.getElementById('view');
@@ -1135,8 +1163,10 @@ function coinSnd(sec,up){return wavURL(sec+0.7,(d,sr)=>{let t=0,gap=0.034,seed=7
   while(t<sec){const f=(up?3000:2400)+Math.abs(rnd())*1500,st=Math.floor(t*sr),L=Math.floor(.02*sr);for(let i=0;i<L&&st+i<d.length;i++){const e=Math.exp(-i/(L*.22));d[st+i]+=.32*e*(Math.sin(2*Math.PI*f*i/sr)*.75+rnd()*.25)}t+=gap;gap*=1.065}
   const s0=Math.floor(sec*sr);const tones=up?[[1318.5,.42,0],[1760,.38,.07],[2637,.16,.07]]:[[1046.5,.4,0],[1318.5,.32,.08],[2093,.12,.08]];
   for(const [f,a,dl] of tones){const st=s0+Math.floor(dl*sr);for(let i=0;st+i<d.length;i++){const tt=i/sr;d[st+i]+=a*Math.exp(-tt*6)*Math.sin(2*Math.PI*f*tt)}}})}
-function isLight(){try{return localStorage.getItem('kupaTheme')==='light'}catch(e){return false}}
-function applyTheme(){document.documentElement.classList.toggle('lt',isLight())}
+const BGC={green:['ירוק','#1c322a'],navy:['כחול','#1b2838'],teal:['טורקיז','#123336'],wine:['בורדו','#3b1e26'],brown:['חום','#3a2b1f'],coal:['פחם','#26282a'],stone:['אבן בהיר','#c7c2b5']};
+function branchBg(b){const m=(S.settings&&S.settings.bg)||{};if(m[b]&&BGC[m[b]])return m[b];let lt=false;try{lt=localStorage.getItem('kupaTheme')==='light'}catch(e){}return lt?'stone':'green'}
+function isLight(){return branchBg(S.branch||'rishon')==='stone'}
+function applyTheme(){const k=branchBg(S.branch||'rishon'),r=document.documentElement;r.classList.toggle('lt',k==='stone');if(k==='stone')r.style.removeProperty('--g');else r.style.setProperty('--g',BGC[k][1])}
 function soundOn(){try{return localStorage.getItem('kupaMute')!=='1'}catch(e){return true}}
 document.addEventListener('pointerdown',()=>{if(AEok)return;AEok=true;try{AE.src=wavURL(.05,()=>{});AE.volume=1;const pr=AE.play();pr&&pr.then(()=>AE.pause()).catch(()=>{})}catch(e){}},{capture:true});
 function playSnd(kind,sec,up){if(!soundOn())return;try{const key=kind+(up?'u':'d');if(!SND[key])SND[key]=coinSnd(sec,up);AE.src=SND[key];AE.currentTime=0;const pr=AE.play();pr&&pr.catch(()=>{})}catch(e){}}
@@ -1266,7 +1296,7 @@ function chartHTML(){const mode=S.chartMode||'day',b=S.branch,ser=zSeries(b,mode
   <div class="seg zseg" role="group" aria-label="תקופה">${Object.entries(nm).map(([m,l])=>`<button data-act="chart" data-v="${m}" aria-pressed="${mode===m}">${l}</button>`).join('')}</div>
   <div class="zbars m-${mode}">${ser.map((x,i)=>`<div class="zb${x.cur?' cur':''}"><span class="zv">${x.v?k(x.v):''}</span><span class="zcol"><i style="height:${Math.round(x.v/mx*100)}%;animation-delay:${i*45}ms"></i></span><span class="zl">${x.l}</span></div>`).join('')}</div>
   <div class="line muted"><span>סה״כ ${nm[mode]==='ימים'?'14 ימים':nm[mode]==='שבועות'?'8 שבועות':'6 חודשים'}: <b>${ils(tot)}</b></span><span>ממוצע: <b>${ils(cnt?tot/cnt:0)}</b></span></div></section>`}
-const APP_BUILD='26.11.2026 · 17:50';
+const APP_BUILD='28.11.2026 · 09:00';
 const SIC={
  rep:'<path d="M3 3v18h18"/><path d="M7 15l4-4 3 3 5-6"/>',
  chart:'<path d="M4 20V10M10 20V4M16 20v-7M22 20H2"/>',
@@ -1294,7 +1324,7 @@ function viewSettings(){
       ${sitem('emp','עובדים',`${emps} פעילים · הוספה ועריכה`,'setp','emps')}
       ${sitem('mail','משיכת Z מהמייל',`${MZ.on?'פעיל':'כבוי'} · כל יום ב־${esc(MZ.time)}`,'setp','mail')}</div>`;
     h+=`<div class="st-grp">תצוגה</div><div class="st-list">
-      <div class="st-item static">${sic('theme')}<span class="st-tx"><b>מצב תצוגה</b><small>כהה או בהיר</small></span><div class="seg thm sm" role="group" aria-label="תצוגה"><button data-act="theme" data-v="dark" aria-pressed="${!isLight()}">כהה</button><button data-act="theme" data-v="light" aria-pressed="${isLight()}">בהיר</button></div></div>
+      <div class="st-item static">${sic('theme')}<span class="st-tx"><b>מצב תצוגה · ${esc(BRANCHES[S.branch||'rishon'])}</b><small>נשמר לכל סניף בנפרד</small></span><div class="seg thm sm" role="group" aria-label="תצוגה"><button data-act="theme" data-v="dark" aria-pressed="${!isLight()}">כהה</button><button data-act="theme" data-v="light" aria-pressed="${isLight()}">בהיר</button></div></div>
       <label class="st-item static">${sic('snd')}<span class="st-tx"><b>צליל כסף</b><small>בזמן גלגול הסכום</small></span><input type="checkbox" class="sw" id="sndIn" ${soundOn()?'checked':''}></label></div>`;
     h+=`<div class="st-grp">מידע</div><div class="st-list">
       <div class="st-item static">${sic('br')}<span class="st-tx"><b>סניף</b><small>${esc(BRANCHES[SB])} · מחליפים בחץ שבמסך הבית</small></span></div>
@@ -1616,7 +1646,8 @@ document.addEventListener('click',ev=>{
     case 'akey':{if(v==='del')Z.pin=Z.pin.slice(0,-1);else if(Z.pin.length<4)Z.pin+=v;Z.err='';Z.shake=false;
       if(Z.pin.length===4){if(Z.pin===ACCT_PIN){const to=Z.to;zClose();S.branch=to;S.monthBranch=to;S.shownCash=undefined;try{localStorage.setItem('kupaBranch',to)}catch(e){}render();toast('עברת לחשבון '+ACCT[to]);break}else{Z.pin='';Z.err='קוד שגוי';Z.shake=true}}
       zDraw();break}
-    case 'theme':try{localStorage.setItem('kupaTheme',v)}catch(e){}applyTheme();render();break;
+    case 'theme':{const b=S.branch||'rishon';S.settings={...S.settings,bg:{...((S.settings&&S.settings.bg)||{}),[b]:v==='light'?'stone':'green'}};saveSettings();applyTheme();render();break}
+    case 'bgc':{const [b,k]=v.split(':');S.settings={...S.settings,bg:{...((S.settings&&S.settings.bg)||{}),[b]:k}};saveSettings();applyTheme();render();toast('הצבע נשמר · '+BRANCHES[b]);break}
     case 'chart':S.chartMode=v;render();break;
     case 'bank':Z={kind:'stmt',stage:'stmt',sk:'deposit',branch:S.branch};zDraw();break;
     case 'ledger':Z={kind:'stmt',stage:'stmt',sk:'ledger',branch:S.branch};zDraw();break;
