@@ -856,6 +856,13 @@ details.more>:not(summary){margin:0 12px 12px}
 .ro-l{font-weight:800;font-size:1.05rem}.ro-p{font-weight:700;opacity:.75;font-variant-numeric:tabular-nums}.ro-v{font-weight:800;font-size:1.15rem;font-variant-numeric:tabular-nums}.ro-go{opacity:.6;font-size:20px}
 .rin-t:focus-visible,.rout-t:focus-visible{outline:3px solid var(--accent);outline-offset:2px}
 .flow-note{text-align:center}
+.mc-dots{display:flex;justify-content:center;gap:8px;padding:2px 0}
+.mc-dots button{all:unset;width:8px;height:8px;border-radius:99px;background:var(--line);cursor:pointer;transition:width .25s,background .25s}
+.mc-dots button[aria-selected="true"]{width:22px;background:var(--accent)}
+@keyframes mcf{from{opacity:0;transform:translateX(-28px)}to{opacity:1;transform:none}}
+@keyframes mcb{from{opacity:0;transform:translateX(28px)}to{opacity:1;transform:none}}
+.mc-in-f{animation:mcf .28s ease-out}.mc-in-b{animation:mcb .28s ease-out}
+@media (prefers-reduced-motion:reduce){.mc-in-f,.mc-in-b{animation:none}}
 /* monthly report: screen preview + print */
 #rpo{scroll-padding-top:70px;position:fixed;inset:0;z-index:60;background:#d9d5cc;overflow-y:auto;-webkit-overflow-scrolling:touch;padding:calc(12px + env(safe-area-inset-top,0px)) 10px calc(24px + env(safe-area-inset-bottom,0px))}
 :root.pwa #rpo{padding-top:calc(64px + env(safe-area-inset-top,0px))}
@@ -1288,15 +1295,15 @@ function viewMonth(){
   if(S.mcat)return mcatView(b);
   {const inc=(tot.z||0)+(tot.w||0);
    const OUT=[['deposit','הופקד לבנק',tot.deposit||0,'#1c322a','#f3efe6'],['advance','מפרעות עובדים',tot.advance||0,'#7d9c88','#14231c'],['owner','מפרעות בעלים',tot.owner||0,'#b59a62','#14231c'],['salary','משכורות',tot.salary||0,'#3e6a56','#f3efe6']];
-   const out=OUT.reduce((a,x)=>a+x[2],0),left=inc-out,base=Math.max(inc,out),pct=v=>base>0?Math.round(v/base*100):0;
+   const out=OUT.reduce((a,x)=>a+x[2],0),base=out,pct=v=>base>0?Math.round(v/base*100):0;
    h+=`<div class="rin">${[['z','Z',tot.z||0],['w','W',tot.w||0]].map(([k,l,v])=>`<button class="rin-t" data-act="mcat" data-v="${k}"><small>הכנסות ${l}</small><b>${ils(v)}</b></button>`).join('')}</div>`;
-   h+=`<div class="rout">${OUT.map(([k,l,v,bg,fg])=>`<button class="rout-t" data-act="mcat" data-v="${k}" style="background:${bg};color:${fg}"><span class="ro-l">${l}</span><span class="ro-p">${pct(v)}%</span><b class="ro-v">${ils(v)}</b><span class="ro-go" aria-hidden="true">‹</span></button>`).join('')}</div>`;
-   const seg=OUT.filter(x=>x[2]>0).map(x=>[x[0],x[2],x[3],x[4]]);if(left>0)seg.push(['left',left,'#d8d2c4','#14231c']);
+   h+=`<div class="rout">${OUT.slice().sort((p,q)=>q[2]-p[2]).map(([k,l,v,bg,fg])=>`<button class="rout-t" data-act="mcat" data-v="${k}" style="background:${bg};color:${fg}"><span class="ro-l">${l}</span><span class="ro-p">${pct(v)}%</span><b class="ro-v">${ils(v)}</b><span class="ro-go" aria-hidden="true">‹</span></button>`).join('')}</div>`;
+   const seg=OUT.filter(x=>x[2]>0).sort((p,q)=>q[2]-p[2]).map(x=>[x[0],x[2],x[3],x[4]]);
    if(base>0){const R=100,C=110,tt=seg.reduce((t,x)=>t+x[1],0);let a=-Math.PI/2;
     const svg=seg.length===1?`<circle cx="${C}" cy="${C}" r="${R}" fill="${seg[0][2]}"/><text x="${C}" y="${C}" fill="${seg[0][3]}">100%</text>`:seg.map(x=>{const f=x[1]/tt,a2=a+f*2*Math.PI,lg=f>.5?1:0,p=t=>(C+R*Math.cos(t)).toFixed(2)+' '+(C+R*Math.sin(t)).toFixed(2),mid=(a+a2)/2;
       const d=`M${C} ${C} L${p(a)} A${R} ${R} 0 ${lg} 1 ${p(a2)} Z`;a=a2;
       return `<path d="${d}" fill="${x[2]}" stroke="var(--bg)" stroke-width="2.5" stroke-linejoin="round"/>${f>=.05?`<text x="${(C+R*.64*Math.cos(mid)).toFixed(1)}" y="${(C+R*.64*Math.sin(mid)).toFixed(1)}" fill="${x[3]}">${Math.round(f*100)}%</text>`:''}`}).join('');
-    h+=`<div class="flow-pie"><svg viewBox="0 0 220 220" role="img" aria-label="לאן הלך הכסף מתוך ההכנסות">${svg}</svg></div>${left>0?'<p class="flow-note">החלק האפור · נשאר בקופה</p>':left<0?`<p class="flow-note">יצא יותר ממה שנכנס ב־${ils(-left)}</p>`:''}`}}
+    h+=`<div class="flow-pie"><svg viewBox="0 0 220 220" role="img" aria-label="לאן הלך הכסף מתוך ההכנסות">${svg}</svg></div><p class="flow-note">חלוקת ההוצאות · סה״כ ${ils(out)}</p>`}}
   h+=`<details class="more"><summary>ספירות ו־Z שלא הופקד</summary>`;
   h+=`<div class="banner ${Math.abs(gaps)<0.01?'info':gaps<0?'neg':'warn'}"><span>פערי ספירה בחודש: ${ils(gaps,true)}</span><span class="muted" style="font-weight:600">${rows.filter(r=>r.counted!==null).length} ימים נספרו מתוך ${rows.length}</span></div>`;
   const zNotDep=tot.z-tot.deposit;
@@ -1327,7 +1334,7 @@ function chartHTML(){const mode=S.chartMode||'day',b=S.branch,ser=zSeries(b,mode
   <div class="seg zseg" role="group" aria-label="תקופה">${Object.entries(nm).map(([m,l])=>`<button data-act="chart" data-v="${m}" aria-pressed="${mode===m}">${l}</button>`).join('')}</div>
   <div class="zbars m-${mode}">${ser.map((x,i)=>`<div class="zb${x.cur?' cur':''}"><span class="zv">${x.v?k(x.v):''}</span><span class="zcol"><i style="height:${Math.round(x.v/mx*100)}%;animation-delay:${i*45}ms"></i></span><span class="zl">${x.l}</span></div>`).join('')}</div>
   <div class="line muted"><span>סה״כ ${nm[mode]==='ימים'?'14 ימים':nm[mode]==='שבועות'?'8 שבועות':'6 חודשים'}: <b>${ils(tot)}</b></span><span>ממוצע: <b>${ils(cnt?tot/cnt:0)}</b></span></div></section>`}
-const APP_BUILD='28.11.2026 · 13:00';
+const APP_BUILD='28.11.2026 · 13:25';
 const SIC={
  rep:'<path d="M3 3v18h18"/><path d="M7 15l4-4 3 3 5-6"/>',
  chart:'<path d="M4 20V10M10 20V4M16 20v-7M22 20H2"/>',
@@ -1479,12 +1486,18 @@ function openingSheet(){S.tab='settings';closeSheet();render();setTimeout(()=>do
 /* ---------- monthly PDF report: a print-ready page; iPhone saves it as PDF from the print sheet ---------- */
 function rm(n){const v=Math.round((n||0)*100)/100;return (v<0?'−':'')+'₪'+nf.format(Math.abs(v))}
 
+const MCATS=['z','w','deposit','advance','owner','salary'],MCAT_T={z:'הכנסות Z',w:'הכנסות W',deposit:'הופקד לבנק',advance:'מפרעות עובדים',owner:'מפרעות בעלים',salary:'משכורות'};
+function mcatStep(d){const i=MCATS.indexOf(S.mcat);if(i<0)return;const j=i+d;if(j<0||j>=MCATS.length)return;S.mcatDir=d>0?'f':'b';S.mcat=MCATS[j];render();window.scrollTo(0,0);setTimeout(()=>{S.mcatDir=''},400)}
+(()=>{let x0=null,y0=0,t0=0;
+  document.addEventListener('touchstart',e=>{if(S.tab!=='month'||!S.mcat||e.touches.length!==1||document.documentElement.classList.contains('rp-on')){x0=null;return}x0=e.touches[0].clientX;y0=e.touches[0].clientY;t0=Date.now()},{passive:true});
+  document.addEventListener('touchend',e=>{if(x0===null)return;const t=e.changedTouches[0],dx=t.clientX-x0,dy=t.clientY-y0;x0=null;
+    if(Math.abs(dx)>60&&Math.abs(dx)>Math.abs(dy)*1.6&&Date.now()-t0<800)mcatStep(dx>0?1:-1)},{passive:true});})();
 function mcatView(b){
   const m=S.month,brs=b==='both'?Object.keys(BRANCHES):[b],[y,mm]=m.split('-').map(Number),n=new Date(y,mm,0).getDate();
   const k=S.mcat,types=k==='change'?['change','changeback']:[k];
   const L=[];for(const br of brs)for(let i=1;i<=n;i++){const date=m+'-'+pad(i);for(const e of getDay(br,date).entries)if(types.includes(e.type))L.push({br,date,e})}
   L.sort((p,q)=>p.date<q.date?-1:p.date>q.date?1:String(p.e.at||'')<String(q.e.at||'')?-1:1);
-  const T={z:'הכנסות Z',w:'הכנסות W',deposit:'הופקד לבנק',advance:'מפרעות לעובדים',owner:'משיכות בעלים',salary:'משכורות',change:'עודף'}[k]||'';
+  const T={z:'הכנסות Z',w:'הכנסות W',deposit:'הופקד לבנק',advance:'מפרעות לעובדים',owner:'מפרעות בעלים',salary:'משכורות',change:'עודף'}[k]||'';
   const amt=x=>k==='change'?(x.e.type==='change'?+x.e.amount:-x.e.amount):+x.e.amount;
   const total=L.reduce((s,x)=>s+amt(x),0);
   const dl=x=>`<bdi dir="ltr">${x.date.slice(8,10)}/${x.date.slice(5,7)}</bdi>`+(b==='both'?` · ${esc(BRANCHES[x.br])}`:'');
@@ -1499,15 +1512,16 @@ function mcatView(b){
   else if(k==='deposit')body=L.map(x=>row(x,esc(x.e.note||'הפקדה לבנק'))).join('');
   else body=L.map(x=>row(x,x.e.type==='change'?'העברה לקופת עודף':'החזרה מקופת עודף')).join('');
   return `<div class="mc-top"><button class="chipbtn" data-act="mcatback">› חזרה לדוחות</button>${L.length?`<button class="chipbtn mc-pdf" data-act="mcatpdf"><svg viewBox="0 0 24 24" width="16" height="16" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M12 3v12M7 10l5 5 5-5"/><path d="M4 17v2a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2v-2"/></svg>ייצוא PDF</button>`:''}</div>
-  <div class="mc-head"><small>${esc(hMonth(m))} · ${b==='both'?'כל הסניפים':esc(BRANCHES[b])}</small><h2>${T}</h2><div class="mc-tot">${ils(total)}</div><small>${L.length===1?'פעולה אחת':L.length+' פעולות'}${k==='change'?' · העברות פחות החזרות':''}</small></div>
-  <div class="mc-list">${body||'<div class="empty">אין פעולות בחודש הזה</div>'}</div>`;
+  <div class="mc-dots" role="tablist" aria-label="קטגוריות">${MCATS.map(c=>`<button role="tab" data-act="mcat" data-v="${c}" aria-selected="${c===k}" aria-label="${MCAT_T[c]}"></button>`).join('')}</div>
+  <div class="mc-head mc-in-${S.mcatDir||'n'}"><small>${esc(hMonth(m))} · ${b==='both'?'כל הסניפים':esc(BRANCHES[b])}</small><h2>${T}</h2><div class="mc-tot">${ils(total)}</div><small>${L.length===1?'פעולה אחת':L.length+' פעולות'}${k==='change'?' · העברות פחות החזרות':''}</small></div>
+  <div class="mc-list mc-in-${S.mcatDir||'n'}">${body||'<div class="empty">אין פעולות בחודש הזה</div>'}</div>`;
 }
 function mcatPdfHTML(){
   const b=S.monthBranch,m=S.month,brs=b==='both'?Object.keys(BRANCHES):[b],[y,mm]=m.split('-').map(Number),n=new Date(y,mm,0).getDate();
   const k=S.mcat,types=k==='change'?['change','changeback']:[k];
   const L=[];for(const br of brs)for(let i=1;i<=n;i++){const date=m+'-'+pad(i);for(const e of getDay(br,date).entries)if(types.includes(e.type))L.push({br,date,e})}
   L.sort((p,q)=>p.date<q.date?-1:p.date>q.date?1:String(p.e.at||'')<String(q.e.at||'')?-1:1);
-  const T={z:'הכנסות Z',w:'הכנסות W',deposit:'הופקד לבנק',advance:'מפרעות לעובדים',owner:'משיכות בעלים',salary:'משכורות',change:'עודף'}[k]||'';
+  const T={z:'הכנסות Z',w:'הכנסות W',deposit:'הופקד לבנק',advance:'מפרעות לעובדים',owner:'מפרעות בעלים',salary:'משכורות',change:'עודף'}[k]||'';
   const amt=x=>k==='change'?(x.e.type==='change'?+x.e.amount:-x.e.amount):+x.e.amount;
   const total=L.reduce((s,x)=>s+amt(x),0),dd=s=>s.slice(8,10)+'/'+s.slice(5,7);
   const lab=x=>k==='z'||k==='w'?k.toUpperCase()+(x.e.ref?' מס׳ '+x.e.ref:''):k==='deposit'?(x.e.note||'הפקדה לבנק'):k==='change'?(x.e.type==='change'?'העברה לקופת עודף':'החזרה מקופת עודף'):k==='owner'?(x.e.note||''):'';
